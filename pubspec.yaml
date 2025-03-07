@@ -1,0 +1,163 @@
+name: furni_quest
+description: A new Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.2 <4.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  flutter_font_icons: ^2.2.7
+  flutter_lints: ^2.0.0
+  font_awesome_flutter: ^10.7.0
+  carousel_slider: ^4.2.1
+  image_picker: ^1.0.8
+  flutter_keyboard_visibility: ^5.0.0
+  keyboard_avoider: ^0.2.0
+  http:
+  camera: ^0.10.5+9
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+  assets:
+     - assets/photo.png
+     - assets/Vector.png
+     - assets/BlobShape.png
+     - assets/Logo.png
+     - assets/Background Container.png
+     - assets/logo_sgin_in.png
+     - assets/GreenSofa.png
+     - assets/BrownStorage.png
+     - assets/Lighting.png
+     - assets/BrownChair.png
+     - assets/UrOurDesign.png
+     - assets/WhiteTableSmall.png
+     - assets/WoodBed.png
+     - assets/LightingDark.png
+     - assets/LightingDark.png
+     - assets/BlackChair.png
+     - assets/BedRoomSmall.png
+     - assets/BrownChairSmall.png
+     - assets/DressingSmall.png
+     - assets/CoffeeCorner.png
+     - assets/LivingRoom.jpeg
+     - assets/BedRoom.jpeg
+     - assets/VanillaSet.png
+     - assets/WhiteTable.png
+     - assets/chair_image/BrownChair.png
+     - assets/chair_image/DarkGreyChair.png
+     - assets/chair_image/GreenChair.png
+     - assets/chair_image/GreyChair.png
+     - assets/chair_image/LightChair.png
+     - assets/chair_image/LightgreyChair.png
+     - assets/chair_image/OutdoorChair.png
+     - assets/chair_image/VanillaChair.png
+     - assets/categories_image/BedRoom.png
+     - assets/categories_image/DiningRoom.png
+     - assets/categories_image/LivingRoom.png
+     - assets/categories_image/OutdoorsRoom.png
+     - assets/categories_image/Beds.png
+     - assets/categories_image/RoomSets.png
+     - assets/categories_image/Commodes.png
+     - assets/categories_image/Dressing.png
+     - assets/product_image/SmallBrownChair.png
+     - assets/product_image/SmallGreenChair.png
+     - assets/product_image/SmallMovChair.png
+     - assets/product_image/CheckBrownChair.png
+     - assets/product_image/Sofa.png
+     - assets/product_image/WhiteDressing.png
+     - assets/product_image/BrownUnit.png
+     - assets/product_image/BigBrownChair1.png
+     - assets/product_image/BigBrownChair2.png
+     - assets/EmptyCart_image/EmptyCart.png
+     - assets/MyWishList_image/GreyChair.png
+     - assets/MyWishList_image/GreyLight.png
+     - assets/MyWishList_image/VanillaBed.png
+     - assets/MyWishList_image/WhiteDressing.png
+     - assets/MyWishList_image/LightGreyChair.png
+     - assets/MyWishList_image/GreyDressing.png
+     - assets/MyWishList_image/WhiteCorner.png
+     - assets/MyWishList_image/WoodComode.png
+     - assets/order_image/Success Icon.png
+     - assets/order_image/Visa card.png
+
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+     - family: Heebo
+       fonts:
+         - asset: fonts/Heebo-Black.ttf
+         - asset: fonts/Heebo-Bold.ttf
+           weight: 900
+         - asset: fonts/Heebo-ExtraBold.ttf
+         - asset: fonts/Heebo-Light.ttf
+         - asset: fonts/Heebo-Medium.ttf
+         - asset: fonts/Heebo-Regular.ttf
+         - asset: fonts/Heebo-Thin.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
