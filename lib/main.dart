@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/splash',
       routes: {
         '/splash': (context) => const SplashScreen(),
-        '/home': (context) => HomeScreen(), // صفحتك الأصلية
-        '/categories': (context) => CategoriesPage(), // صفحتك الأصلية
+        '/home': (context) => HomeScreen(),
+        '/categories': (context) => CategoriesPage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

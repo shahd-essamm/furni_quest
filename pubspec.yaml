@@ -132,6 +132,15 @@ flutter:
      - assets/MyWishList_image/WoodComode.png
      - assets/order_image/Success Icon.png
      - assets/order_image/Visa card.png
+     - assets/categories_image/DiningTables.png
+     - assets/categories_image/Lighting.png
+     - assets/categories_image/TV Units.png
+     - assets/categories_image/Chairs.png
+     - assets/categories_image/CoffeeCorners.png
+     - assets/categories_image/OutdoorChair.png
+     - assets/categories_image/WoodenSideTables.png
+     - assets/categories_image/Steel Outdoor.png
+     - assets/account_image/Settings.png
 
   #   - images/a_dot_ham.jpeg
 

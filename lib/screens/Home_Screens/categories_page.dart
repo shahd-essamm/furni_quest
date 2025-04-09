@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:furni_quest/screens/Home_Screens/home_page.dart';
 
+import 'cart_page.dart';
+
 class CategoriesPage extends StatefulWidget {
   @override
   _CategoriesPageState createState() => _CategoriesPageState();
@@ -28,17 +30,28 @@ class _CategoriesPageState extends State<CategoriesPage> {
     CategoryItem(
       title: "Dining Room",
       image: "assets/categories_image/DiningRoom.png",
-      subItems: [],
+      subItems: [
+        SubItem(name: "Dining Tables", image: "assets/categories_image/DiningTables.png"),
+        SubItem(name: "Lighting", image: "assets/categories_image/Lighting.png"),
+      ],
     ),
     CategoryItem(
       title: "Living Room",
       image: "assets/categories_image/LivingRoom.png",
-      subItems: [],
+      subItems: [
+        SubItem(name: "TV Units", image: "assets/categories_image/TV Units.png"),
+        SubItem(name: "Chairs", image: "assets/categories_image/Chairs.png"),
+        SubItem(name: "Coffee Corners", image: "assets/categories_image/CoffeeCorners.png"),
+      ],
     ),
     CategoryItem(
       title: "Outdoors",
       image: "assets/categories_image/OutdoorsRoom.png",
-      subItems: [],
+      subItems: [
+        SubItem(name: "Outdoor Chair", image: "assets/categories_image/OutdoorChair.png"),
+        SubItem(name: "Wooden Side Tables", image: "assets/categories_image/WoodenSideTables.png"),
+        SubItem(name: "Steel Outdoor", image: "assets/categories_image/Steel Outdoor.png"),
+      ],
     ),
   ];
 
@@ -213,6 +226,12 @@ class BottomNavBar extends StatelessWidget {
       onTap: () {
         if (page == "HomePage") {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        }
+        if (page == "Categories") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesPage(),));
+        }
+        if (page == "Cart") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CartScreen(),));
         }
       },
       child: Container(
