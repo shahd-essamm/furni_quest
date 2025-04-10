@@ -45,6 +45,10 @@ dependencies:
   keyboard_avoider: ^0.2.0
   http:
   camera: ^0.10.5+9
+  barcode_scanner: ^5.1.0
+  barcode: ^2.2.9
+  flutter_barcode_scanner: ^2.0.0
+  barcode_widget: ^2.0.4
 
 
 
