@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "furni_quest" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "furni_quest" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "furni_quest.exe" "\0"
             VALUE "ProductName", "furni_quest" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
