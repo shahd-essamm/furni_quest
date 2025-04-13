@@ -120,7 +120,11 @@ class _SignupViewState extends State<SignupView> {
               ElevatedButton(
                 onPressed: isChecked
                     ? () {
-                        Navigator.pushNamed(context, VerifyView.routeName);
+                        Navigator.pushNamed(
+                          context,
+                          VerifyView.routeName,
+                          arguments: false,
+                        );
                       }
                     : null,
                 style: ElevatedButton.styleFrom(

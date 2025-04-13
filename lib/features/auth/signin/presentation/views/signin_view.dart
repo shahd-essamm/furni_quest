@@ -154,9 +154,11 @@ class SignInScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(
+                      Navigator.push(
                         context,
-                        ForgotPasswordView.routeName,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordView(),
+                        ),
                       );
                     },
                     child: const Text(

@@ -4,152 +4,155 @@ import 'package:furni_quest/features/auth/forgot_password.dart/presentation/view
 class SignupBusinessView extends StatefulWidget {
   const SignupBusinessView({super.key});
 
-  static const routeName = 'signupbusiness';
+  static const String routeName = 'signup-business';
 
   @override
   State<SignupBusinessView> createState() => _SignupBusinessViewState();
 }
 
 class _SignupBusinessViewState extends State<SignupBusinessView> {
-  bool isChecked = false;
+  final _formKey = GlobalKey<FormState>();
+
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+  bool _agreeTerms = false;
+  bool _agreePrivacy = false;
+  bool _allFieldsFilled = false;
+
+  final Map<String, TextEditingController> _controllers = {
+    'brandName': TextEditingController(),
+    'brandEmail': TextEditingController(),
+    'phone': TextEditingController(),
+    'companyAddress': TextEditingController(),
+    'brandDocument': TextEditingController(),
+    'password': TextEditingController(),
+    'confirmPassword': TextEditingController(),
+  };
+
+  void _checkFieldsFilled() {
+    bool allFilled =
+        _controllers.values.every((controller) => controller.text.isNotEmpty);
+    setState(() {
+      _allFieldsFilled = allFilled && _agreeTerms && _agreePrivacy;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controllers.forEach((key, controller) {
+      controller.addListener(_checkFieldsFilled);
+    });
+  }
+
+  @override
+  void dispose() {
+    _controllers.forEach((key, controller) => controller.dispose());
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            size: 24,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         backgroundColor: Colors.white,
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new,
+              size: 24, color: Color(0xFF3A3E39)),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  'Create Business Account',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF3A3E39),
-                    fontFamily: 'Heebo',
-                  ),
+              const Text(
+                'Create Business Account',
+                style: TextStyle(
+                  fontFamily: 'Heebo',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                  color: Color(0xFF3A3E39),
                 ),
               ),
-              const SizedBox(height: 8),
-              const Center(
-                child: Text(
-                  'Fill your information below',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF4B5049),
-                    fontFamily: 'Heebo',
-                  ),
+              const SizedBox(height: 4),
+              const Text(
+                'Fill your information below',
+                style: TextStyle(
+                  fontFamily: 'Heebo',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: Color(0xFF646B62),
                 ),
               ),
+              const SizedBox(height: 24),
+              _buildTextField('Brand Name', _controllers['brandName']!),
+              _buildTextField('Brand Email', _controllers['brandEmail']!,
+                  prefixIcon: Icons.email_outlined),
+              _buildPhoneField(),
+              _buildTextField(
+                  'Company Address', _controllers['companyAddress']!),
+              _buildTextField(
+                'Brand Document',
+                _controllers['brandDocument']!,
+                suffixIcon: Icons.push_pin,
+                isDocument: true,
+              ),
+              _buildTextField(
+                'Password',
+                _controllers['password']!,
+                obscureText: _obscurePassword,
+                suffixIcon: Icons.visibility,
+                toggleVisibility: () =>
+                    setState(() => _obscurePassword = !_obscurePassword),
+              ),
+              _buildTextField(
+                'Confirm Password',
+                _controllers['confirmPassword']!,
+                obscureText: _obscureConfirmPassword,
+                suffixIcon: Icons.visibility,
+                toggleVisibility: () => setState(
+                    () => _obscureConfirmPassword = !_obscureConfirmPassword),
+              ),
+              const SizedBox(height: 12),
+              _buildCheckbox(
+                  'Agree with Terms & Conditions',
+                  _agreeTerms,
+                  (val) => setState(() {
+                        _agreeTerms = val!;
+                        _checkFieldsFilled();
+                      })),
+              _buildCheckbox(
+                  'Agree to The Privacy Policy',
+                  _agreePrivacy,
+                  (val) => setState(() {
+                        _agreePrivacy = val!;
+                        _checkFieldsFilled();
+                      })),
               const SizedBox(height: 20),
-              _buildInputField(label: 'Brand Name'),
-              _buildInputField(
-                label: 'Brand Email',
-                icon: Icons.email_outlined,
-                iconPosition: IconPosition.left,
-              ),
-              _buildInputField(label: 'Phone Number', prefixText: 'Eg'),
-              _buildInputField(label: 'Company Address'),
-              _buildInputField(
-                label: 'Brand Document',
-                icon: Icons.attach_file_outlined,
-                iconPosition: IconPosition.right,
-              ),
-              _buildInputField(
-                label: 'Password',
-                isPassword: true,
-                hintText: '****',
-                icon: Icons.visibility_outlined,
-              ),
-              _buildInputField(
-                label: 'Confirm Password',
-                isPassword: true,
-                hintText: '****',
-                icon: Icons.visibility_outlined,
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  // _buildCheckBox(
-                  Checkbox(
-                    value: isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        isChecked = value ?? false;
-                      });
-                    },
-                    activeColor: const Color(0xFF53634F),
-                  ),
-                  // ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'Agree with Terms & Condition',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF515E4D),
-                      fontFamily: 'Heebo',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  // _buildCheckBox(
-                  Checkbox(
-                    value: isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        isChecked = value ?? false;
-                      });
-                    },
-                    activeColor: const Color(0xFF53634F),
-                  ),
-                  // ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'Agree to The Privacy Policy',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF515E4D),
-                      fontFamily: 'Heebo',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Center(
+              SizedBox(
+                height: 44,
+                width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: isChecked
-                      ? () {
-                          Navigator.pop(
+                  onPressed: _allFieldsFilled
+                      ? () => Navigator.push(
                             context,
-                            VerifyView.routeName,
-                          );
-                        }
+                            MaterialPageRoute(
+                              builder: (context) => VerifyView(
+                                isNewPassword: false,
+                              ),
+                            ),
+                          )
                       : null,
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(335, 44),
-                    backgroundColor: const Color(0xFF657660),
+                    backgroundColor: _allFieldsFilled
+                        ? const Color(0xFF657660)
+                        : const Color(0xFF53634F),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -157,15 +160,14 @@ class _SignupBusinessViewState extends State<SignupBusinessView> {
                   child: const Text(
                     'Sign in',
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
                       fontFamily: 'Heebo',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
+              )
             ],
           ),
         ),
@@ -173,481 +175,165 @@ class _SignupBusinessViewState extends State<SignupBusinessView> {
     );
   }
 
-  Widget _buildInputField({
-    required String label,
-    IconData? icon,
-    String? prefixText,
-    bool isPassword = false,
-    String? hintText,
-    IconPosition iconPosition = IconPosition.right,
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller, {
+    IconData? prefixIcon,
+    IconData? suffixIcon,
+    bool obscureText = false,
+    VoidCallback? toggleVisibility,
+    bool isDocument = false,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF4B5049),
-            fontFamily: 'Heebo',
+    bool isFilled = controller.text.isNotEmpty;
+    double height = isDocument && isFilled ? 105 : 44;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontFamily: 'Heebo',
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: Color(0xFF4B5049),
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          width: 335,
-          height: 44,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(0xFFC3C9C0), width: 1),
-            color: Colors.white,
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x1A101828),
-                offset: Offset(0, 1),
-                blurRadius: 2,
+          const SizedBox(height: 4),
+          SizedBox(
+            height: height,
+            child: TextField(
+              controller: controller,
+              obscureText: obscureText,
+              maxLines: isDocument && isFilled ? null : 1,
+              keyboardType: label == 'Phone Number'
+                  ? TextInputType.number
+                  : TextInputType.text,
+              decoration: InputDecoration(
+                hintText: 'Enter here',
+                hintStyle: const TextStyle(
+                  fontFamily: 'Heebo',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: Color(0xFFC3C9C0),
+                ),
+                prefixIcon: prefixIcon != null
+                    ? Icon(prefixIcon, size: 24, color: Color(0xFF657660))
+                    : null,
+                suffixIcon: suffixIcon != null
+                    ? GestureDetector(
+                        onTap: toggleVisibility,
+                        child: Icon(suffixIcon,
+                            size: 24, color: Color(0xFF657660)),
+                      )
+                    : null,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                      color: isFilled ? Color(0xFFA7B2A3) : Color(0xFFC3C9C0)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                      color: isFilled ? Color(0xFFA7B2A3) : Color(0xFFC3C9C0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Color(0xFFA7B2A3)),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               ),
-            ],
+            ),
           ),
-          child: Row(
-            children: [
-              if (icon != null && iconPosition == IconPosition.left)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(icon, color: Color(0xFFC3C9C0)),
-                ),
-              if (prefixText != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    prefixText,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF4B5049),
-                      fontFamily: 'Heebo',
-                    ),
-                  ),
-                ),
-              Expanded(
-                child: TextField(
-                  obscureText: isPassword,
-                  decoration: InputDecoration(
-                    hintText: hintText ?? label,
-                    hintStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFFC3C9C0),
-                      fontFamily: 'Heebo',
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  ),
-                ),
-              ),
-              if (icon != null && iconPosition == IconPosition.right)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(icon, color: Color(0xFFC3C9C0)),
-                ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-      ],
+        ],
+      ),
     );
   }
 
-  // Widget _buildCheckBox() {
-  //   return Container(
-  //     width: 16,
-  //     height: 16,
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(4),
-  //       border: Border.all(color: const Color(0xFF515E4D), width: 1),
-  //     ),
-  //   );
-  // }
+  Widget _buildPhoneField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Phone Number',
+            style: TextStyle(
+              fontFamily: 'Heebo',
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: Color(0xFF4B5049),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Container(
+            height: 44,
+            decoration: BoxDecoration(
+              border: Border.all(color: Color(0xFFC3C9C0)),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 12),
+                const Text('Eg', style: TextStyle(fontFamily: 'Heebo')),
+                const Icon(Icons.arrow_drop_down),
+                const SizedBox(width: 12),
+                const VerticalDivider(width: 1),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextField(
+                    controller: _controllers['phone'],
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '+1 (251) 000-0000',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Heebo',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFFC3C9C0),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCheckbox(String label, bool value, Function(bool?)? onChanged) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Checkbox(
+            value: value,
+            onChanged: onChanged,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            activeColor: Colors.transparent,
+            checkColor: const Color(0xFF657660),
+            side: const BorderSide(color: Color(0xFF657660)),
+          ),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontFamily: 'Heebo',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF3A3E39),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
-
-enum IconPosition { left, right }
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:file_picker/file_picker.dart';
-//
-// class CreateBusinessAccountScreen extends StatefulWidget {
-//   const CreateBusinessAccountScreen({Key? key}) : super(key: key);
-//
-//   @override
-//   State<CreateBusinessAccountScreen> createState() => _CreateBusinessAccountScreenState();
-// }
-//
-// class _CreateBusinessAccountScreenState extends State<CreateBusinessAccountScreen> {
-//   String? selectedDocument;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: IconButton(
-//           icon: const Icon(
-//             Icons.arrow_back,
-//             size: 24,
-//           ),
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//         ),
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//       ),
-//       body: SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//           child: Column(
-//             children: [
-//               const SizedBox(height: 20),
-//               const Center(
-//                 child: Text(
-//                   'Create Business Account',
-//                   style: TextStyle(
-//                     fontSize: 24,
-//                     fontWeight: FontWeight.w600,
-//                     color: Color(0xFF3A3E39),
-//                     fontFamily: 'Heebo',
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 8),
-//               const Center(
-//                 child: Text(
-//                   'Fill your information below',
-//                   style: TextStyle(
-//                     fontSize: 16,
-//                     fontWeight: FontWeight.w400,
-//                     color: Color(0xFF4B5049),
-//                     fontFamily: 'Heebo',
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//               _buildInputField(label: 'Brand Name'),
-//               _buildInputField(label: 'Brand Email', icon: Icons.email_outlined),
-//               _buildInputField(label: 'Phone Number', prefixText: 'Eg'),
-//               _buildInputField(label: 'Company Address'),
-//               _buildDocumentInputField(), // تعديل الحقل الخاص بالمستندات
-//               const SizedBox(height: 20),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildDocumentInputField() {
-//     return GestureDetector(
-//       onTap: () async {
-//         // استخدام File Picker لتحديد الملف
-//         FilePickerResult? result = await FilePicker.platform.pickFiles();
-//         if (result != null) {
-//           setState(() {
-//             selectedDocument = result.files.single.name;
-//           });
-//         }
-//       },
-//       child: Container(
-//         width: 335,
-//         height: selectedDocument == null ? 44 : 105,
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(8),
-//           border: Border.all(color: const Color(0xFFC3C9C0), width: 1),
-//           color: Colors.white,
-//         ),
-//         child: selectedDocument == null
-//             ? Row(
-//           children: [
-//             const Padding(
-//               padding: EdgeInsets.symmetric(horizontal: 10),
-//               child: Icon(Icons.attach_file_outlined, color: Color(0xFFC3C9C0)),
-//             ),
-//             const Text(
-//               'Brand Document',
-//               style: TextStyle(
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.w400,
-//                 color: Color(0xFFC3C9C0),
-//                 fontFamily: 'Heebo',
-//               ),
-//             ),
-//           ],
-//         )
-//             : Padding(
-//           padding: const EdgeInsets.all(10.0),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               const Text(
-//                 'Document Selected:',
-//                 style: TextStyle(
-//                   fontSize: 12,
-//                   fontWeight: FontWeight.w500,
-//                   color: Color(0xFF4B5049),
-//                   fontFamily: 'Heebo',
-//                 ),
-//               ),
-//               const SizedBox(height: 5),
-//               Text(
-//                 selectedDocument!,
-//                 style: const TextStyle(
-//                   fontSize: 14,
-//                   fontWeight: FontWeight.w400,
-//                   color: Color(0xFF4B5049),
-//                   fontFamily: 'Heebo',
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildInputField({
-//     required String label,
-//     IconData? icon,
-//     String? prefixText,
-//     bool isPassword = false,
-//   }) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           label,
-//           style: const TextStyle(
-//             fontSize: 14,
-//             fontWeight: FontWeight.w500,
-//             color: Color(0xFF4B5049),
-//             fontFamily: 'Heebo',
-//           ),
-//         ),
-//         const SizedBox(height: 8),
-//         Container(
-//           width: 335,
-//           height: 44,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(8),
-//             border: Border.all(color: const Color(0xFFC3C9C0), width: 1),
-//             color: Colors.white,
-//           ),
-//           child: Row(
-//             children: [
-//               if (prefixText != null)
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 10),
-//                   child: Text(
-//                     prefixText,
-//                     style: const TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: FontWeight.w400,
-//                       color: Color(0xFF4B5049),
-//                       fontFamily: 'Heebo',
-//                     ),
-//                   ),
-//                 ),
-//               Expanded(
-//                 child: TextField(
-//                   obscureText: isPassword,
-//                   decoration: InputDecoration(
-//                     hintText: label,
-//                     border: InputBorder.none,
-//                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-//                   ),
-//                 ),
-//               ),
-//               if (icon != null)
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 10),
-//                   child: Icon(icon, color: Color(0xFFC3C9C0)),
-//                 ),
-//             ],
-//           ),
-//         ),
-//         const SizedBox(height: 16),
-//       ],
-//     );
-//   }
-// }
-
-
-
-
-// import 'package:flutter/material.dart';
-//
-// class CreateBusinessAccountScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back, size: 24, color: Colors.black),
-//           onPressed: () {
-//             Navigator.pushNamed(context, '/CreateAccountScreen');
-//           },
-//         ),
-//       ),
-//       body: SingleChildScrollView(
-//         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const SizedBox(height: 16),
-//             Text(
-//               'Create Business Account',
-//               style: TextStyle(
-//                 fontSize: 24,
-//                 fontWeight: FontWeight.w600,
-//                 color: Color(0xFF3A3E39),
-//                 fontFamily: 'Heebo',
-//               ),
-//             ),
-//             const SizedBox(height: 8),
-//             Text(
-//               'Fill your information below',
-//               style: TextStyle(
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.w500,
-//                 color: Color(0xFF646B62),
-//                 fontFamily: 'Heebo',
-//               ),
-//             ),
-//             const SizedBox(height: 24),
-//             ..._buildFormFields(),
-//             const SizedBox(height: 16),
-//             _buildCheckBox('Agree with Terms & Condition'),
-//             const SizedBox(height: 8),
-//             _buildCheckBox('Agree to The Privacy Policy'),
-//             const SizedBox(height: 24),
-//             SizedBox(
-//               width: double.infinity,
-//               height: 44,
-//               child: ElevatedButton(
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: Color(0xFF53634F),
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(8),
-//                   ),
-//                   shadowColor: Colors.black,
-//                   elevation: 5,
-//                 ),
-//                 onPressed: () {
-//                   // Action for Sign In
-//                 },
-//                 child: Text(
-//                   'Sign in',
-//                   style: TextStyle(
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w600,
-//                     fontFamily: 'Heebo',
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   List<Widget> _buildFormFields() {
-//     final fields = [
-//       'Brand Name',
-//       'Brand Email',
-//       'Phone Number',
-//       'Company Address',
-//       'Brand Document',
-//       'Password',
-//       'Confirm Password',
-//     ];
-//
-//     return fields.map((field) {
-//       return Padding(
-//         padding: const EdgeInsets.only(bottom: 16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               field,
-//               style: TextStyle(
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.w500,
-//                 color: Color(0xFF4B5049),
-//                 fontFamily: 'Heebo',
-//               ),
-//             ),
-//             const SizedBox(height: 8),
-//             Container(
-//               decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.circular(8),
-//                 border: Border.all(color: Color(0xFFC3C9C0), width: 1),
-//                 boxShadow: [
-//                   BoxShadow(
-//                     color: Color(0x101828).withOpacity(0.1),
-//                     offset: Offset(0, 1),
-//                     blurRadius: 2,
-//                     spreadRadius: 0,
-//                   ),
-//                 ],
-//               ),
-//               child: TextField(
-//                 obscureText: field.contains('Password'),
-//                 decoration: InputDecoration(
-//                   border: InputBorder.none,
-//                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-//                   hintText: field == 'Phone Number' ? '+1 (XXX) XXX-XXXX' : '',
-//                   hintStyle: TextStyle(
-//                     color: Color(0xFFC3C9C0),
-//                     fontFamily: 'Heebo',
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       );
-//     }).toList();
-//   }
-//
-//   Widget _buildCheckBox(String label) {
-//     return Row(
-//       children: [
-//         Container(
-//           width: 16,
-//           height: 16,
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.circular(4),
-//             border: Border.all(color: Color(0xFF515E4D), width: 1),
-//           ),
-//         ),
-//         const SizedBox(width: 8),
-//         Text(
-//           label,
-//           style: TextStyle(
-//             fontSize: 14,
-//             fontWeight: FontWeight.w600,
-//             color: Color(0xFF515E4D),
-//             fontFamily: 'Heebo',
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:furni_quest/features/home/presentation/views/home_view.dart';
 import 'package:furni_quest/features/cart/presentation/views/cart_view.dart';
 import 'package:furni_quest/features/categoris/presentation/views/categories_view.dart';
+import 'package:furni_quest/features/profile/presentation/views/settings_view.dart';
 
 class MainViewBody extends StatelessWidget {
   const MainViewBody({
@@ -19,12 +20,10 @@ class MainViewBody extends StatelessWidget {
         HomeView(),
         CategoriesView(),
         Center(
-          child: Text("Cart View"),
+          child: Text("Scann View"),
         ),
         CartView(),
-        Center(
-          child: Text("Profile View"),
-        ),
+        SettingsView(),
       ],
     );
   }

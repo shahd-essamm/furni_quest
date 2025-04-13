@@ -55,75 +55,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/photo.png
-    - assets/Vector.png
-    - assets/BlobShape.png
-    - assets/Logo.png
-    - assets/Background Container.png
-    - assets/logo_sgin_in.png
-    - assets/GreenSofa.png
-    - assets/BrownStorage.png
-    - assets/Lighting.png
-    - assets/BrownChair.png
-    - assets/UrOurDesign.png
-    - assets/WhiteTableSmall.png
-    - assets/WoodBed.png
-    - assets/LightingDark.png
-    - assets/LightingDark.png
-    - assets/BlackChair.png
-    - assets/BedRoomSmall.png
-    - assets/BrownChairSmall.png
-    - assets/DressingSmall.png
-    - assets/CoffeeCorner.png
-    - assets/LivingRoom.jpeg
-    - assets/BedRoom.jpeg
-    - assets/VanillaSet.png
-    - assets/WhiteTable.png
-    - assets/chair_image/BrownChair.png
-    - assets/chair_image/DarkGreyChair.png
-    - assets/chair_image/GreenChair.png
-    - assets/chair_image/GreyChair.png
-    - assets/chair_image/LightChair.png
-    - assets/chair_image/LightgreyChair.png
-    - assets/chair_image/OutdoorChair.png
-    - assets/chair_image/VanillaChair.png
-    - assets/categories_image/BedRoom.png
-    - assets/categories_image/DiningRoom.png
-    - assets/categories_image/LivingRoom.png
-    - assets/categories_image/OutdoorsRoom.png
-    - assets/categories_image/Beds.png
-    - assets/categories_image/RoomSets.png
-    - assets/categories_image/Commodes.png
-    - assets/categories_image/Dressing.png
-    - assets/product_image/SmallBrownChair.png
-    - assets/product_image/SmallGreenChair.png
-    - assets/product_image/SmallMovChair.png
-    - assets/product_image/CheckBrownChair.png
-    - assets/product_image/Sofa.png
-    - assets/product_image/WhiteDressing.png
-    - assets/product_image/BrownUnit.png
-    - assets/product_image/BigBrownChair1.png
-    - assets/product_image/BigBrownChair2.png
-    - assets/EmptyCart_image/EmptyCart.png
-    - assets/MyWishList_image/GreyChair.png
-    - assets/MyWishList_image/GreyLight.png
-    - assets/MyWishList_image/VanillaBed.png
-    - assets/MyWishList_image/WhiteDressing.png
-    - assets/MyWishList_image/LightGreyChair.png
-    - assets/MyWishList_image/GreyDressing.png
-    - assets/MyWishList_image/WhiteCorner.png
-    - assets/MyWishList_image/WoodComode.png
-    - assets/order_image/Success Icon.png
-    - assets/order_image/Visa card.png
-    - assets/categories_image/DiningTables.png
-    - assets/categories_image/Lighting.png
-    - assets/categories_image/TV Units.png
-    - assets/categories_image/Chairs.png
-    - assets/categories_image/CoffeeCorners.png
-    - assets/categories_image/OutdoorChair.png
-    - assets/categories_image/WoodenSideTables.png
-    - assets/categories_image/Steel Outdoor.png
-    - assets/account_image/Settings.png
+    - assets/
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

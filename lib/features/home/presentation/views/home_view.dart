@@ -5,6 +5,7 @@ import 'package:furni_quest/features/home/presentation/views/widgets/custom_sear
 import 'package:furni_quest/features/home/presentation/views/widgets/new_arrivals_list_view.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/recommended_grid_view.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/wish_list_view.dart';
+import 'package:furni_quest/features/notifications/presentation/views/empty_notification_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -66,15 +67,23 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             icon: Icon(Icons.favorite_border, color: Colors.black),
             onPressed: () {
-              Navigator.pushNamed(
-                context,
-                WishListView.routeName,
-              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const WishListView(),
+                  ));
             },
           ),
           IconButton(
             icon: Icon(Icons.notifications_none, color: Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EmptyNotificationsView(),
+                ),
+              );
+            },
           ),
         ],
       ),

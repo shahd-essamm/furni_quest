@@ -119,9 +119,13 @@ class ForgotPasswordView extends StatelessWidget {
                 height: 44,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      VerifyView.routeName,
+                      MaterialPageRoute(
+                        builder: (context) => VerifyView(
+                          isNewPassword: true,
+                        ),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
