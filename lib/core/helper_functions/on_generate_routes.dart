@@ -13,6 +13,7 @@ import 'package:furni_quest/features/notifications/presentation/views/empty_noti
 import 'package:furni_quest/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:furni_quest/features/profile/presentation/views/profile_view.dart';
 import 'package:furni_quest/features/profile/presentation/views/settings_view.dart';
+import 'package:furni_quest/features/search/presentation/views/search_view.dart';
 import 'package:furni_quest/features/splash/presentation/views/splash_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -54,6 +55,8 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
           builder: (context) => const ForgotPasswordView());
     case ProfileView.routeName:
       return MaterialPageRoute(builder: (context) => const ProfileView());
+    case SearchView.routeName:
+      return MaterialPageRoute(builder: (context) => const SearchView());
 
     default:
       return MaterialPageRoute(builder: (context) => const Scaffold());

@@ -34,6 +34,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
+  flutter_svg: ^2.0.17
   font_awesome_flutter: ^10.8.0
   image_picker: ^1.1.2
   keyboard_avoider: ^0.2.0
@@ -56,7 +57,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-    
+    - assets/chair_image/
+    - assets/account_image/
+    - assets/categories_image/
+    - assets/EmptyCart_image/
+    - assets/MyWishList_image/
+    - assets/order_image/
+    - assets/product_image/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

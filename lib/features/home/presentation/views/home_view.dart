@@ -94,7 +94,9 @@ class _HomeViewState extends State<HomeView> {
             // Search Field
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: CustomSearchField(),
+              child: CustomSearchField(
+                isSearch: false,
+              ),
             ),
             SizedBox(
               height: 24,

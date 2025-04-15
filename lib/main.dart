@@ -21,6 +21,7 @@ class FurniQuest extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryColor,
+          secondary: AppColors.primaryColor,
         ),
         useMaterial3: true,
       ),

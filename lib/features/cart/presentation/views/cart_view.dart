@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:furni_quest/features/home/presentation/views/home_view.dart';
 import 'package:furni_quest/features/cart/presentation/views/widgets/checkout_view.dart';
-import 'package:furni_quest/features/home/presentation/views/widgets/product_deatils_view.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
 // Use the global cart list
 class CartView extends StatefulWidget {

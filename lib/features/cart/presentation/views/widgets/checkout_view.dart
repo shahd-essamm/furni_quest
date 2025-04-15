@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_quest/features/home/presentation/views/widgets/product_deatils_view.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 import 'package:furni_quest/features/order/presentation/views/add_card_view.dart';
 
 class CheckoutView extends StatefulWidget {

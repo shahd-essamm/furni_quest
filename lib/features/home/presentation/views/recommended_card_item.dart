@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_quest/features/home/presentation/views/widgets/product_deatils_view.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
 class RecommendedCardItem extends StatefulWidget {
   final String title;
