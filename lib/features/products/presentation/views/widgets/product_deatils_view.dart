@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
+import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/custom_list_view_selected_color.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
@@ -29,7 +31,6 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-  int indexSelectedColor = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +57,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               Center(
                 child: SizedBox(
                   height: 60,
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: 218,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: 3,
@@ -154,44 +155,12 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   Expanded(
                     child: SizedBox(
                       height: 26,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
-                          final bool isSelected = indexSelectedColor == index;
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                indexSelectedColor = index;
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Container(
-                                width: 26,
-                                height: 26,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: AppColors.primaryColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 200),
-                                    width: isSelected ? 12 : 20,
-                                    height: isSelected ? 12 : 20,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primaryColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                      child: CustomListViewSelectColorWidget(
+                        colors: [
+                          AppColors.primaryColor,
+                          AppColors.primaryColor,
+                          AppColors.primaryColor,
+                        ],
                       ),
                     ),
                   ),
@@ -251,17 +220,19 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               ),
               Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomCheckBox(
-                        isChecked: false,
-                        onChecked: (value) {},
-                      ),
-                      Image.asset(
-                        widget.image,
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomCheckBox(
+                          isChecked: false,
+                          onChecked: (value) {},
+                        ),
+                        Image.asset(
+                          widget.image,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(width: 8),
                   Text(
@@ -272,49 +243,31 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomCheckBox(
-                        isChecked: true,
-                        onChecked: (value) {},
-                      ),
-                      Image.asset(
-                        widget.image,
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomCheckBox(
+                          isChecked: true,
+                          onChecked: (value) {},
+                        ),
+                        Image.asset(
+                          widget.image,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
               SizedBox(
                 height: 8,
               ),
-              GestureDetector(
+              CustomButton(
+                title: "Buy 2 Items Together",
+                backgroundColor: Colors.white,
+                textColor: AppColors.primaryColor,
+                borderColor: AppColors.primaryColor,
                 onTap: () {},
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: AppColors.primaryColor,
-                      width: 1,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(
-                      child: Text(
-                        "Buy 2 Items Together",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.primaryColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ),
               SizedBox(
                 height: 16,

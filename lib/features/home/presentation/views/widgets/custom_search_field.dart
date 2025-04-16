@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/camera_view.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/search_chair_view.dart';
 import 'package:furni_quest/features/search/presentation/views/search_view.dart';
+import 'package:furni_quest/features/search/presentation/views/widgets/filter_bottom_sheet.dart';
 
 class CustomSearchField extends StatelessWidget {
   const CustomSearchField({
@@ -37,7 +38,25 @@ class CustomSearchField extends StatelessWidget {
             ),
             onPressed: () {
               isSearch
-                  ? null
+                  ? showModalBottomSheet(
+                      sheetAnimationStyle: AnimationStyle(
+                        curve: Curves.easeInOut,
+                        duration: Duration(milliseconds: 300),
+                        reverseDuration: Duration(milliseconds: 300),
+                      ),
+                      context: context,
+                      isScrollControlled: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(25),
+                        ),
+                      ),
+                      builder: (context) => FilterBottomSheet(
+                        onApply: (filters) {
+                          print(filters); // اعمل فلترة باستخدام القيم المختارة
+                        },
+                      ),
+                    )
                   : Navigator.push(
                       context,
                       MaterialPageRoute(
