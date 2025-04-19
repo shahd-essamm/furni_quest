@@ -72,7 +72,6 @@ class _CustomProductsGridViewState extends State<CustomProductsGridView> {
   Widget build(BuildContext context) {
     return GridView.builder(
       physics: BouncingScrollPhysics(),
-      
       itemCount: products.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

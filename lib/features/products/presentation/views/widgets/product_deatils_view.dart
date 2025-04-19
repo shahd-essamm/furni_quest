@@ -437,7 +437,6 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     imagePath: widget.image,
                     name: widget.title,
                     price: "200",
-                    rating: widget.rating,
                   ),
                 ),
               ),
@@ -470,7 +469,6 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     imagePath: widget.image,
                     name: widget.title,
                     price: "200",
-                    rating: widget.rating,
                   ),
                 ),
               ),
@@ -492,7 +490,18 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        cartItems.add({
+                          'title': widget.title,
+                          'image': widget.image,
+                          'price': widget.price,
+                          'quantity': 1,
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Added to cart')),
+                        );
+                      },
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -518,7 +527,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 ],
               ),
               SizedBox(
-                height: 16,
+                height: 24,
               ),
             ],
           ),

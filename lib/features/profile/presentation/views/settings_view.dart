@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/profile/presentation/views/privacy_view.dart';
 import 'package:furni_quest/features/profile/presentation/views/profile_view.dart';
+import 'package:furni_quest/features/profile/presentation/views/second_settings_view.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -102,9 +104,33 @@ class SettingsView extends StatelessWidget {
                       context, Icons.location_on, 'Manage Address', () {}),
                   _buildItem(context, Icons.payment, 'Payment Methods', () {}),
                   _buildItem(context, Icons.shopping_bag, 'My Orders', () {}),
-                  _buildItem(context, Icons.settings, 'Settings', () {}),
+                  _buildItem(
+                    context,
+                    Icons.settings,
+                    'Settings',
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SecondSettingsPage(),
+                        ),
+                      );
+                    },
+                  ),
                   _buildItem(context, Icons.help_outline, 'Help Center', () {}),
-                  _buildItem(context, Icons.privacy_tip, 'Privacy', () {}),
+                  _buildItem(
+                    context,
+                    Icons.privacy_tip,
+                    'Privacy',
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PrivacyPage(),
+                        ),
+                      );
+                    },
+                  ),
                   _buildItem(context, Icons.logout, 'Log out',
                       () => showLogoutDialog(context)),
                 ],

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:furni_quest/core/utils/app_colors.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/product_card.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 import 'package:furni_quest/features/order/presentation/views/add_card_view.dart';
 
@@ -14,6 +17,7 @@ class CheckoutView extends StatefulWidget {
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
+  String selectedPaymentMethod = 'Cash';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,24 +40,67 @@ class _CheckoutViewState extends State<CheckoutView> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20),
-            _buildLocationSection(),
-            Divider(color: Color(0xFFC3C9C0)),
-            SizedBox(height: 20),
-            _buildOrderSection(),
-            Divider(color: Color(0xFFC3C9C0)),
-            SizedBox(height: 20),
-            _buildPaymentMethodSection(),
-            SizedBox(height: 320),
-            _buildTotalCostSection(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              _buildLocationSection(),
+              Divider(color: Color(0xFFC3C9C0)),
+              SizedBox(height: 20),
+              _buildOrderSection(),
+              Divider(color: Color(0xFFC3C9C0)),
+              SizedBox(height: 20),
+              _buildPaymentMethodSection(),
+              SizedBox(height: 20),
+              Divider(color: Color(0xFFC3C9C0)),
+              SizedBox(height: 20),
+              _buildItemsYouMightLike(),
+              SizedBox(height: 20),
+              _buildTotalCostSection(),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildItemsYouMightLike() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Items you might like',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF2D352B),
+          ),
+        ),
+        SizedBox(height: 10),
+        GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 4,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 157 / 176.32,
+            ),
+            itemBuilder: (context, index) {
+              return ProductCard(
+                name: "Test",
+                imagePath: "assets/BedRoomSmall.png",
+                isFavorite: false,
+                onFavoritePressed: () {},
+                price: "180",
+                rating: 4,
+              );
+            }),
+      ],
     );
   }
 
@@ -111,14 +158,16 @@ class _CheckoutViewState extends State<CheckoutView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Your Order',
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF2D352B))),
+        Text(
+          'Your Order',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF2D352B),
+          ),
+        ),
         SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
           children: [
             Row(
               children: [
@@ -152,15 +201,21 @@ class _CheckoutViewState extends State<CheckoutView> {
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                _showAllItems(context);
-              },
-              child: Text('See all items',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF515E4D))),
+            SizedBox(
+              height: 8,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () {
+                  _showAllItems(context);
+                },
+                child: Text('See all items',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF515E4D))),
+              ),
             ),
           ],
         ),
@@ -222,11 +277,103 @@ class _CheckoutViewState extends State<CheckoutView> {
         SizedBox(height: 10),
         Row(
           children: [
-            _buildPaymentCard(
-                'Cash', Icons.money, Colors.white, Color(0xFF4B5049)),
+            Expanded(
+              child: _buildPaymentCard(
+                'Cash',
+                'assets/cash_icon.svg',
+                'assets/cash_icon_solid.svg',
+              ),
+            ),
             SizedBox(width: 10),
-            _buildPaymentCard('Bank Transfer', Icons.account_balance,
-                Color(0xFF868E82), Color(0xFFEDEDEC)),
+            Expanded(
+              child: _buildPaymentCard(
+                'Bank Transfer',
+                "assets/bank_trans_icon.svg",
+                "assets/bank_trans_icon_solid.svg",
+              ),
+            ),
+          ],
+        ),
+        if (selectedPaymentMethod == 'Bank Transfer') ...[
+          SizedBox(height: 16),
+          _buildBankTransferFields(),
+        ]
+      ],
+    );
+  }
+
+  Widget _buildBankTransferFields() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Card Number",
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF4B5049),
+          ),
+        ),
+        SizedBox(height: 10),
+        TextField(
+          decoration: InputDecoration(
+            labelText: 'Card Number',
+            border: OutlineInputBorder(),
+          ),
+          keyboardType: TextInputType.number,
+        ),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Expiry Date",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF4B5049),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Expiry Date',
+                      hintText: 'MM/YY',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.datetime,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "CVV",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF4B5049),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'CVV',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                    obscureText: true,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ],
@@ -234,16 +381,26 @@ class _CheckoutViewState extends State<CheckoutView> {
   }
 
   Widget _buildPaymentCard(
-      String text, IconData icon, Color bgColor, Color textColor) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 23),
+    String text,
+    String iconPath,
+    String iconPathSolid,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedPaymentMethod = text; // 'Cash' أو 'Bank Transfer'
+        });
+      },
       child: Container(
         width: 157,
         height: 88,
         decoration: BoxDecoration(
-          color: bgColor,
+          color:
+              selectedPaymentMethod == text ? Color(0xFF868E82) : Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Color(0xFF4A5845)),
+          border: Border.all(
+            color: AppColors.primaryColor,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -252,31 +409,46 @@ class _CheckoutViewState extends State<CheckoutView> {
             )
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 24, color: textColor),
-            SizedBox(height: 5),
-            Text(text,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SvgPicture.asset(
+                    selectedPaymentMethod == text ? iconPathSolid : iconPath,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: selectedPaymentMethod == text
+                          ? Colors.white
+                          : AppColors.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text(
+                text == 'Cash'
+                    ? 'Pay cash when the order\narrives at the destination.'
+                    : 'Log in to your online\naccount',
                 style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: textColor)),
-            if (text == 'Cash')
-              Text('Pay cash when the order\narrives at the destination.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: textColor)),
-            if (text == 'Bank Transfer')
-              Text('Log in to your online\naccount',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: textColor)),
-          ],
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: selectedPaymentMethod == text
+                      ? Colors.white
+                      : AppColors.primaryColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

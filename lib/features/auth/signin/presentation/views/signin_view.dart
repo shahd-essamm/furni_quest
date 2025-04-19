@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:furni_quest/core/utils/app_colors.dart';
+import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/features/auth/forgot_password.dart/presentation/views/forgot_password_view.dart';
 import 'package:furni_quest/features/home/presentation/views/main_view.dart';
 
@@ -89,7 +92,7 @@ class SignInScreen extends StatelessWidget {
                           color: Color(0xFFA7B2A3),
                         ),
                         decoration: InputDecoration(
-                          hintText: "Mariam sobhy654@gmail.com",
+                          hintText: "Enter your email",
                           hintStyle: const TextStyle(
                             fontFamily: 'Heebo',
                             fontSize: 14,
@@ -133,7 +136,7 @@ class SignInScreen extends StatelessWidget {
                           color: Color(0xFFA7B2A3),
                         ),
                         decoration: InputDecoration(
-                          hintText: "●●●●●●●",
+                          hintText: "Enter your password",
                           hintStyle: const TextStyle(
                             fontFamily: 'Heebo',
                             fontSize: 14,
@@ -174,90 +177,88 @@ class SignInScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 // Sign In button
-                SizedBox(
-                  width: MediaQuery.of(context).size.width -
-                      40, // تحديد العرض بناءً على العرض المتاح
-                  height: 44,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF657660),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                CustomButton(
+                  title: "Sign In",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainView(),
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainView(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      "Sign in",
-                      style: TextStyle(
-                        fontFamily: 'Heebo',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 15),
                 // Google Sign In
-                SizedBox(
-                  width: MediaQuery.of(context).size.width -
-                      40, // تحديد العرض بناءً على العرض المتاح
-                  height: 44,
-                  child: OutlinedButton.icon(
-                    icon: const FaIcon(FontAwesomeIcons.google),
-                    label: const Text(
-                      "Sign in with Google",
-                      style: TextStyle(
-                        fontFamily: 'Heebo',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF4B5049),
+
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.primaryColor,
+                        width: 1,
                       ),
                     ),
-                    style: OutlinedButton.styleFrom(
-                      side:
-                          const BorderSide(color: Color(0xFFCFD5CE), width: 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset("assets/google_icon.svg"),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "Sign in with Google",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
                     ),
-                    onPressed: () {},
                   ),
                 ),
+
                 const SizedBox(height: 7),
                 // Apple Sign In
-                SizedBox(
-                  width: MediaQuery.of(context).size.width -
-                      40, // تحديد العرض بناءً على العرض المتاح
-                  height: 44,
-                  child: OutlinedButton.icon(
-                    icon: const FaIcon(FontAwesomeIcons.apple),
-                    label: const Text(
-                      "Sign in with Apple",
-                      style: TextStyle(
-                        fontFamily: 'Heebo',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF4B5049),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.primaryColor,
+                        width: 1,
                       ),
                     ),
-                    style: OutlinedButton.styleFrom(
-                      side:
-                          const BorderSide(color: Color(0xFFCFD5CE), width: 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset("assets/apple_icon.svg"),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "Sign in with Apple",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
                     ),
-                    onPressed: () {},
                   ),
                 ),
+
                 const SizedBox(height: 10),
                 // Register link
                 Row(

@@ -4,7 +4,7 @@ class ProductCardWithoutRating extends StatelessWidget {
   final String name;
   final String price;
   final String imagePath;
-  final int rating;
+
   final bool isFavorite;
   final VoidCallback onFavoritePressed;
 
@@ -13,7 +13,6 @@ class ProductCardWithoutRating extends StatelessWidget {
     required this.name,
     required this.price,
     required this.imagePath,
-    required this.rating,
     required this.isFavorite,
     required this.onFavoritePressed,
   });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
 
 class WishListView extends StatefulWidget {
   const WishListView({super.key});
@@ -149,13 +150,12 @@ class _WishListViewState extends State<WishListView> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 157 / 157.32,
+                childAspectRatio: 157 / 176.32,
               ),
               itemBuilder: (context, index) {
                 final item = wishlistItems[index];
-                return WishlistCard(
+                return ProductCardWithoutRating(
                   name: item['name'],
-                  size: item['size'],
                   price: item['price'],
                   imagePath: item['image'],
                   isFavorite: item['isFavorite'],
