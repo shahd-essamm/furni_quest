@@ -1,59 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furni_quest/core/services/get_it_service.dart';
+import 'package:furni_quest/features/home/data/repos/product_repo.dart';
+import 'package:furni_quest/features/home/presentation/cubits/product_cubit.dart';
+import 'package:furni_quest/features/home/presentation/cubits/product_state.dart';
 import 'package:furni_quest/features/home/presentation/views/recommended_card_item.dart';
+import 'package:furni_quest/features/home/presentation/views/widgets/recommended_shimmer.dart';
 
 class RecommendedGridView extends StatelessWidget {
-  const RecommendedGridView({
-    super.key,
-  });
+  const RecommendedGridView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      childAspectRatio: 0.9,
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      padding: const EdgeInsets.all(16.0),
-      children: [
-        RecommendedCardItem(
-          title: 'Brown Chair',
-          image: 'assets/BrownChair.png',
-          price: 200,
-          rating: 4,
-        ),
-        RecommendedCardItem(
-          title: 'Brown Storage',
-          image: 'assets/BrownStorage.png',
-          price: 100,
-          rating: 3,
-        ),
-        RecommendedCardItem(
-          title: 'Vanilla Seat',
-          image: 'assets/VanillaSet.png',
-          price: 200,
-          rating: 4,
-        ),
-        RecommendedCardItem(
-          title: 'White Table',
-          image: 'assets/WhiteTable.png',
-          price: 200,
-          rating: 4,
-        ),
-        RecommendedCardItem(
-          title: 'Wood Bed',
-          image: 'assets/WoodBed.png',
-          price: 200,
-          rating: 5,
-        ),
-        RecommendedCardItem(
-          title: 'Green Sofa',
-          image: 'assets/GreenSofa.png',
-          price: 200,
-          rating: 4,
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => ProductCubit(
+        getIt.get<ProductRepository>(),
+      )..getProductRecommendedForYou(),
+      child: BlocConsumer<ProductCubit, ProductState>(
+        listener: (context, state) {
+          if (state is RecommendedForYouFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error)),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is RecommendedForYouLoading) {
+            return RecommendedShimmer();
+          } else if (state is RecommendedForYouSuccess) {
+            return GridView.builder(
+              itemCount: state.product.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.9,
+              ),
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(16.0),
+              itemBuilder: (context, index) => RecommendedCardItem(
+                product: state.product[index],
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
     );
   }
 }

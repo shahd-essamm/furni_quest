@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/home/presentation/views/main_view.dart';
 import 'package:furni_quest/features/on_boarding/presentation/views/on_boarding_view.dart';
 
 class SplashViewBody extends StatefulWidget {
@@ -14,7 +15,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
   void initState() {
     Future.delayed(Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, OnBoarding.routeName);
+        Navigator.pushReplacementNamed(context, MainView.routeName);
       }
     });
     super.initState();

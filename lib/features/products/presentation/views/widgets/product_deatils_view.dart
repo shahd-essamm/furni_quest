@@ -15,7 +15,7 @@ List<Map<String, dynamic>> cartItems = [];
 class ProductDetailsView extends StatefulWidget {
   final String title;
   final String image;
-  final double price;
+  final String price;
   final int rating;
 
   const ProductDetailsView({

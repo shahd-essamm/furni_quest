@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furni_quest/core/services/get_it_service.dart';
 import 'package:furni_quest/features/auth/forgot_password.dart/presentation/views/forgot_password_view.dart';
 import 'package:furni_quest/features/auth/forgot_password.dart/presentation/views/widgets/new_pass_view.dart';
 import 'package:furni_quest/features/auth/forgot_password.dart/presentation/views/widgets/verify_view.dart';
+import 'package:furni_quest/features/auth/signin/data/repository/auth_repo.dart';
+import 'package:furni_quest/features/auth/signin/presentation/cubits/auth_cubit.dart';
 import 'package:furni_quest/features/auth/signin/presentation/views/signin_view.dart';
 import 'package:furni_quest/features/auth/signup/presentation/views/signup_buss_view.dart';
 import 'package:furni_quest/features/auth/signup/presentation/views/signup_view.dart';
@@ -31,7 +35,14 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case CameraView.routeName:
       return MaterialPageRoute(builder: (context) => const CameraView());
     case SignInView.routeName:
-      return MaterialPageRoute(builder: (context) => const SignInView());
+      return MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) => AuthCubit(
+            getIt.get<AuthRepository>(),
+          ),
+          child: const SignInView(),
+        ),
+      );
     case SignupView.routeName:
       return MaterialPageRoute(builder: (context) => const SignupView());
     case VerifyView.routeName:

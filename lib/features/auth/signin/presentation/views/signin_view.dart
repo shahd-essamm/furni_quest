@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/features/auth/forgot_password.dart/presentation/views/forgot_password_view.dart';
+import 'package:furni_quest/features/auth/signin/presentation/cubits/auth_cubit.dart';
+import 'package:furni_quest/features/auth/signin/presentation/cubits/auth_state.dart';
 import 'package:furni_quest/features/home/presentation/views/main_view.dart';
 
 class SignInView extends StatelessWidget {
@@ -18,6 +20,9 @@ class SignInView extends StatelessWidget {
     );
   }
 }
+
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
@@ -85,6 +90,7 @@ class SignInScreen extends StatelessWidget {
                           40, // تحديد العرض بناءً على العرض المتاح
                       height: 44,
                       child: TextField(
+                        controller: emailController,
                         style: const TextStyle(
                           fontFamily: 'Heebo',
                           fontSize: 14,
@@ -128,6 +134,7 @@ class SignInScreen extends StatelessWidget {
                           40, // تحديد العرض بناءً على العرض المتاح
                       height: 44,
                       child: TextField(
+                        controller: passwordController,
                         obscureText: true,
                         style: const TextStyle(
                           fontFamily: 'Heebo',
@@ -177,17 +184,37 @@ class SignInScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 // Sign In button
-                CustomButton(
-                  title: "Sign In",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MainView(),
-                      ),
-                    );
+
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthSuccess) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainView()),
+                      );
+                    } else if (state is AuthFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.error)),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    final cubit = context.read<AuthCubit>();
+
+                    return state is AuthLoading
+                        ? const CircularProgressIndicator()
+                        : CustomButton(
+                            title: "Sign In",
+                            onTap: () {
+                              // اجلب البيانات من الحقول
+                              final email = emailController.text.trim();
+                              final password = passwordController.text.trim();
+                              cubit.login(email, password);
+                            },
+                          );
                   },
                 ),
+
                 const SizedBox(height: 15),
                 // Google Sign In
 

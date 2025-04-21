@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/home/data/models/product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
 class RecommendedCardItem extends StatefulWidget {
-  final String title;
-  final String image;
-  final double price;
-  final int rating;
+  final ProductModel product;
 
   const RecommendedCardItem({
     super.key,
-    required this.title,
-    required this.image,
-    required this.price,
-    required this.rating,
+    required this.product,
   });
 
   @override
@@ -30,10 +25,10 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
           context,
           MaterialPageRoute(
             builder: (context) => ProductDetailsView(
-              title: widget.title,
-              image: widget.image,
-              price: widget.price,
-              rating: widget.rating,
+              title: widget.product.name,
+              image: widget.product.mainImage,
+              price: widget.product.price,
+              rating: 4,
             ),
           ),
         );
@@ -51,8 +46,8 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Image.asset(
-                    widget.image,
+                  child: Image.network(
+                    widget.product.mainImage,
                     width: double.infinity,
                     height: 110,
                   ),
@@ -77,7 +72,7 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                widget.title,
+                widget.product.name,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -92,14 +87,14 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
                   Row(
                     children: List.generate(5, (index) {
                       return Icon(
-                        index < widget.rating ? Icons.star : Icons.star_border,
+                        index < 4 ? Icons.star : Icons.star_border,
                         size: 16,
                         color: Colors.orangeAccent,
                       );
                     }),
                   ),
                   Text(
-                    '\$${widget.price.toString()}',
+                    '\$${widget.product.price.toString()}',
                     style: TextStyle(fontSize: 14, color: Colors.green),
                   ),
                 ],

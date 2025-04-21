@@ -89,7 +89,7 @@ class _CustomProductsGridViewState extends State<CustomProductsGridView> {
                 builder: (context) => ProductDetailsView(
                   title: product['name'],
                   image: product['image'],
-                  price: 200,
+                  price: "200",
                   rating: product['rating'],
                 ),
               ),
