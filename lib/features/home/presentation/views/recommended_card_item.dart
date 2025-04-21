@@ -45,13 +45,25 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
             Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Image.network(
-                    widget.product.mainImage,
-                    width: double.infinity,
-                    height: 110,
-                  ),
-                ),
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Image.network(
+                      widget.product.mainImage,
+                      width: double.infinity,
+                      height: 110,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: double.infinity,
+                          height: 110,
+                          color: Colors.grey.shade200,
+                          child: const Icon(
+                            Icons.image_not_supported,
+                            size: 40,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                    )),
                 Positioned(
                   right: 1,
                   top: 3,
