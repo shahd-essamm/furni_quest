@@ -14,7 +14,7 @@ class ApiConstants {
   //products
   static const String allProductsWithColorAndImage =
       "product/product_image.php";
-  static const String categories = "product/category.php?id=";
+  static const String categories = "product/category.php";
   static const String recommendedForYou =
       "product/PRecommendation.php?action=recommended_for_you";
 }
