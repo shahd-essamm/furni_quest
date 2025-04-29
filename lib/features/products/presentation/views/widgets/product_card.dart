@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/home/data/models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  final String name;
-  final String price;
-  final String imagePath;
-  final int rating;
+  final ProductModel product;
+
   final bool isFavorite;
   final VoidCallback onFavoritePressed;
 
   const ProductCard({
     super.key,
-    required this.name,
-    required this.price,
-    required this.imagePath,
-    required this.rating,
+    required this.product,
     required this.isFavorite,
     required this.onFavoritePressed,
   });
@@ -58,7 +54,7 @@ class ProductCard extends StatelessWidget {
                 child: SizedBox(
                   height: 150,
                   child: Image.asset(
-                    imagePath,
+                    "https://aymantaher.com/Furniture/image/coffe 3.jpg",
                     width: 120,
                     height: 120,
                     fit: BoxFit.contain,
@@ -69,7 +65,7 @@ class ProductCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
-                  name,
+                  product.name,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
@@ -88,7 +84,7 @@ class ProductCard extends StatelessWidget {
                     Row(
                       children: List.generate(5, (index) {
                         return Icon(
-                          index < rating ? Icons.star : Icons.star_border,
+                          index < 4 ? Icons.star : Icons.star_border,
                           size: 14,
                           color: Colors.amber,
                         );
@@ -96,7 +92,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     // السعر على اليمين
                     Text(
-                      price,
+                      product.price,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,

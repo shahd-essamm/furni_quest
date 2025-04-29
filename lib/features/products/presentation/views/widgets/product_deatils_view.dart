@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
+import 'package:furni_quest/features/home/data/models/product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_list_view_selected_color.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
@@ -13,17 +14,11 @@ import 'package:furni_quest/features/products/presentation/views/widgets/product
 List<Map<String, dynamic>> cartItems = [];
 
 class ProductDetailsView extends StatefulWidget {
-  final String title;
-  final String image;
-  final String price;
-  final int rating;
+  final ProductModel product;
 
   const ProductDetailsView({
     super.key,
-    required this.title,
-    required this.image,
-    required this.price,
-    required this.rating,
+    required this.product,
   });
 
   @override
@@ -36,7 +31,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.product.name),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -51,7 +46,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Image.asset(widget.image),
+                child: Image.asset(
+                    "https://aymantaher.com/Furniture/image/coffe 3.jpg"),
               ),
               SizedBox(height: 16),
               Center(
@@ -65,7 +61,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Image.asset(
-                          widget.image,
+                          "https://aymantaher.com/Furniture/image/coffe 3.jpg",
                           width: 60,
                           height: 55,
                         ),
@@ -229,7 +225,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           onChecked: (value) {},
                         ),
                         Image.asset(
-                          widget.image,
+                          "https://aymantaher.com/Furniture/image/coffe 3.jpg",
                         ),
                       ],
                     ),
@@ -252,7 +248,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           onChecked: (value) {},
                         ),
                         Image.asset(
-                          widget.image,
+                          "https://aymantaher.com/Furniture/image/coffe 3.jpg",
                         ),
                       ],
                     ),
@@ -434,8 +430,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   (index) => ProductCardWithoutRating(
                     isFavorite: false,
                     onFavoritePressed: () {},
-                    imagePath: widget.image,
-                    name: widget.title,
+                    imagePath:
+                        "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                    name: widget.product.name,
                     price: "200",
                   ),
                 ),
@@ -466,8 +463,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   (index) => ProductCardWithoutRating(
                     isFavorite: false,
                     onFavoritePressed: () {},
-                    imagePath: widget.image,
-                    name: widget.title,
+                    imagePath:
+                        "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                    name: widget.product.name,
                     price: "200",
                   ),
                 ),
@@ -492,9 +490,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     child: GestureDetector(
                       onTap: () {
                         cartItems.add({
-                          'title': widget.title,
-                          'image': widget.image,
-                          'price': widget.price,
+                          'title': widget.product.name,
+                          'image':
+                              "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                          'price': widget.product.price,
                           'quantity': 1,
                         });
 

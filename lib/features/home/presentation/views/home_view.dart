@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:furni_quest/features/home/presentation/cubits/product_cubit.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/category_card_list_view.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/custom_carousel_slider.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/custom_search_field.dart';

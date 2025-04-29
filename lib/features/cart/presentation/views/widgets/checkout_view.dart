@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
+import 'package:furni_quest/features/home/data/models/product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 import 'package:furni_quest/features/order/presentation/views/add_card_view.dart';
@@ -92,12 +93,23 @@ class _CheckoutViewState extends State<CheckoutView> {
             ),
             itemBuilder: (context, index) {
               return ProductCard(
-                name: "Test",
-                imagePath: "assets/BedRoomSmall.png",
-                isFavorite: false,
+                product: ProductModel(
+                  id: "10",
+                  name: 'Bed',
+                  price: "100",
+                  images: [],
+                  description: "ss",
+                  style: "ss",
+                  categoryId: "",
+                  categoryName: "",
+                  colorPalette: "",
+                  designCode: "",
+                  itemId: "",
+                  subcategoryId: "",
+                  subcategoryName: "",
+                ),
+                isFavorite: true,
                 onFavoritePressed: () {},
-                price: "180",
-                rating: 4,
               );
             }),
       ],

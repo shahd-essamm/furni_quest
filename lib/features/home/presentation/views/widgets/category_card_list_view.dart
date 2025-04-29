@@ -16,19 +16,19 @@ class CategoryCardListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CategoryCubit(
+      create: (context) => ShopByCategoryCubit(
         getIt.get<CategoryRepo>(),
       )..getAllCategory(),
-      child: BlocConsumer<CategoryCubit, CategoryState>(
+      child: BlocConsumer<ShopByCategoryCubit, CategoryState>(
         listener: (context, state) {
-          if (state is CategoryFailure) {
+          if (state is ShopByCategoryFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
             );
           }
         },
         builder: (context, state) {
-          if (state is CategoryLoading) {
+          if (state is ShopByCategoryLoading) {
             return SizedBox(
               height: 95,
               child: ListView.builder(
@@ -50,7 +50,7 @@ class CategoryCardListView extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is CategorySuccess) {
+          } else if (state is ShopByCategorySuccess) {
             return SizedBox(
               height: 95,
               child: ListView.builder(
@@ -63,7 +63,9 @@ class CategoryCardListView extends StatelessWidget {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ProductsOfCategoryView(),
+                        builder: (context) => ProductsOfCategoryView(
+                          products: [],
+                        ),
                       ),
                     ),
                   ),

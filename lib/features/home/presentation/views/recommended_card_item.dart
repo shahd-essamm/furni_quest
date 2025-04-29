@@ -25,10 +25,7 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
           context,
           MaterialPageRoute(
             builder: (context) => ProductDetailsView(
-              title: widget.product.name,
-              image: widget.product.mainImage,
-              price: widget.product.price,
-              rating: 4,
+              product: widget.product,
             ),
           ),
         );
@@ -44,26 +41,30 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
           children: [
             Stack(
               children: [
-                Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Image.network(
-                      widget.product.mainImage,
-                      width: double.infinity,
-                      height: 110,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: double.infinity,
-                          height: 110,
-                          color: Colors.grey.shade200,
-                          child: const Icon(
-                            Icons.image_not_supported,
-                            size: 40,
-                            color: Colors.grey,
-                          ),
-                        );
-                      },
-                    )),
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  child: Image.network(
+                    "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                    width: double.infinity,
+                    height: 110,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: double.infinity,
+                        height: 110,
+                        color: Colors.grey.shade200,
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          size: 40,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 Positioned(
                   right: 1,
                   top: 3,

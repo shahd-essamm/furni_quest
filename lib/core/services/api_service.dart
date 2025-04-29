@@ -17,7 +17,7 @@ class ApiServices {
   Future<Response> getCategoryById({
     required String id,
   }) async {
-    final url = "${ApiConstants.apiBaseUrl}${ApiConstants.categories}$id";
+    final url = "${ApiConstants.apiBaseUrl}${ApiConstants.shopByCategory}$id";
     return await dio.get(url);
   }
 

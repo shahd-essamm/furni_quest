@@ -7,11 +7,11 @@ class CategoryRepo {
 
   CategoryRepo(this.api);
 
-  Future<CategoryModel> getAllCategory() async {
+  Future<ShopByCategoryModel> getAllCategory() async {
     final response = await api.getData(
-      endpoint: ApiConstants.categories,
+      endpoint: ApiConstants.shopByCategory,
     );
 
-    return CategoryModel.fromJson(response.data);
+    return ShopByCategoryModel.fromJson(response.data);
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/home/data/models/new_arrival_model.dart';
 
 class NewArrivalItem extends StatelessWidget {
-  final String image;
+  final NewArrivalModel newArrival;
 
-  const NewArrivalItem({super.key, required this.image});
+  const NewArrivalItem({super.key, required this.newArrival});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +19,23 @@ class NewArrivalItem extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            image,
+          child: Image.network(
+            newArrival.image,
             height: 98, // Adjust height for image
             width: 103,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 103,
+                height: 98,
+                color: Colors.grey.shade200,
+                child: const Icon(
+                  Icons.image_not_supported,
+                  size: 40,
+                  color: Colors.grey,
+                ),
+              );
+            },
           ),
         ),
       ),

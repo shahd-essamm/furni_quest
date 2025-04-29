@@ -1,11 +1,11 @@
-class CategoryModel {
+class ShopByCategoryModel {
   final List<Categories> categories;
-  CategoryModel({
+  ShopByCategoryModel({
     required this.categories,
   });
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) {
-    return CategoryModel(
+  factory ShopByCategoryModel.fromJson(Map<String, dynamic> json) {
+    return ShopByCategoryModel(
       categories: List<Categories>.from(
         json['categories'].map((x) => Categories.fromJson(x)),
       ),
@@ -16,19 +16,19 @@ class CategoryModel {
 class Categories {
   final String id;
   final String name;
-  final String imageUrl;
+  final String image;
 
   Categories({
     required this.id,
     required this.name,
-    required this.imageUrl,
+    required this.image,
   });
 
   factory Categories.fromJson(Map<String, dynamic> json) {
     return Categories(
       id: json['id'],
       name: json['name'],
-      imageUrl: json['image_url'],
+      image: json['image'],
     );
   }
 }

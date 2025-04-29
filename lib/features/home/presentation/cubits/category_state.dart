@@ -4,16 +4,16 @@ abstract class CategoryState {}
 
 class CategoryInitial extends CategoryState {}
 
-class CategoryLoading extends CategoryState {}
+class ShopByCategoryLoading extends CategoryState {}
 
-class CategorySuccess extends CategoryState {
-  final CategoryModel categories;
+class ShopByCategorySuccess extends CategoryState {
+  final ShopByCategoryModel categories;
 
-  CategorySuccess(this.categories);
+  ShopByCategorySuccess(this.categories);
 }
 
-class CategoryFailure extends CategoryState {
+class ShopByCategoryFailure extends CategoryState {
   final String error;
 
-  CategoryFailure(this.error);
+  ShopByCategoryFailure(this.error);
 }
