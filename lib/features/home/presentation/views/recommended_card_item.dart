@@ -47,10 +47,10 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                    widget.product.images[0].imageUrl,
                     width: double.infinity,
                     height: 110,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
                         width: double.infinity,

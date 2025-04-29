@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/home/data/models/product_model.dart';
 
 class CustomListViewSelectColorWidget extends StatefulWidget {
-  const CustomListViewSelectColorWidget({super.key, required this.colors});
+  const CustomListViewSelectColorWidget({super.key, required this.hexColors});
 
-  final List<Color> colors;
+  final List<ImageModel> hexColors;
 
   @override
   State<CustomListViewSelectColorWidget> createState() =>
@@ -18,7 +19,7 @@ class _CustomListViewSelectColorWidgetState
   Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: widget.colors.length,
+      itemCount: widget.hexColors.length,
       itemBuilder: (context, index) {
         final bool isSelected = indexSelectedColor == index;
         return GestureDetector(
@@ -35,7 +36,7 @@ class _CustomListViewSelectColorWidgetState
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: widget.colors[index],
+                  color: parseColor(widget.hexColors[index].colorHex),
                   width: 2,
                 ),
               ),
@@ -45,7 +46,7 @@ class _CustomListViewSelectColorWidgetState
                   width: isSelected ? 12 : 20,
                   height: isSelected ? 12 : 20,
                   decoration: BoxDecoration(
-                    color: widget.colors[index],
+                    color: parseColor(widget.hexColors[index].colorHex),
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -55,5 +56,13 @@ class _CustomListViewSelectColorWidgetState
         );
       },
     );
+  }
+
+  Color parseColor(String hexColor) {
+    hexColor = hexColor.replaceFirst('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF$hexColor'; // إضافة alpha
+    }
+    return Color(int.parse('0x$hexColor'));
   }
 }

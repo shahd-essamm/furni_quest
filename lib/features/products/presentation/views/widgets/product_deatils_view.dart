@@ -26,6 +26,15 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
+  late String imageSelected;
+  int quantity = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    imageSelected = widget.product.images[0].imageUrl;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +55,23 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Image.asset(
-                    "https://aymantaher.com/Furniture/image/coffe 3.jpg"),
+                child: Image.network(
+                  imageSelected,
+                  width: 150,
+                  height: 150,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 150,
+                      height: 150,
+                      color: Colors.grey.shade200,
+                      child: const Icon(
+                        Icons.image_not_supported,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
+                ),
               ),
               SizedBox(height: 16),
               Center(
@@ -56,14 +80,49 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   width: 218,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 3,
+                    itemCount: widget.product.images.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Image.asset(
-                          "https://aymantaher.com/Furniture/image/coffe 3.jpg",
-                          width: 60,
-                          height: 55,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              imageSelected =
+                                  widget.product.images[index].imageUrl;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: imageSelected ==
+                                        widget.product.images[index].imageUrl
+                                    ? AppColors.primaryColor
+                                    : Colors.transparent,
+                                width: 1,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                widget.product.images[index].imageUrl,
+                                width: 60,
+                                height: 55,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 60,
+                                    height: 55,
+                                    color: Colors.grey.shade200,
+                                    child: const Icon(
+                                      Icons.image_not_supported,
+                                      size: 40,
+                                      color: Colors.grey,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -79,7 +138,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       Row(
                         children: [
                           Text(
-                            "Luxurious Armchair",
+                            widget.product.name,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
@@ -103,7 +162,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        "Floyed Brand",
+                        widget.product.style,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -136,7 +195,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 height: 16,
               ),
               Text(
-                "Stylish velvet armchair with a sleek metal frame. Perfect for adding a touch of luxury to your living space.",
+                widget.product.description,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -152,35 +211,40 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     child: SizedBox(
                       height: 26,
                       child: CustomListViewSelectColorWidget(
-                        colors: [
-                          AppColors.primaryColor,
-                          AppColors.primaryColor,
-                          AppColors.primaryColor,
-                        ],
+                        hexColors: widget.product.images,
                       ),
                     ),
                   ),
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.primaryColor,
-                        width: 1,
+                  GestureDetector(
+                    onTap: () {
+                      if (quantity > 1) {
+                        setState(() {
+                          quantity--;
+                        });
+                      }
+                    },
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.primaryColor,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Icon(
-                      Icons.remove,
-                      size: 16,
-                      color: AppColors.primaryColor,
+                      child: Icon(
+                        Icons.remove,
+                        size: 16,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 8,
                   ),
                   Text(
-                    "2",
+                    quantity.toString(),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -189,14 +253,21 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   SizedBox(
                     width: 8,
                   ),
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(4),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        quantity++;
+                      });
+                    },
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Icon(Icons.add, color: Colors.white, size: 16),
                     ),
-                    child: Icon(Icons.add, color: Colors.white, size: 16),
                   ),
                 ],
               ),
@@ -224,7 +295,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           isChecked: false,
                           onChecked: (value) {},
                         ),
-                        Image.asset(
+                        Image.network(
                           "https://aymantaher.com/Furniture/image/coffe 3.jpg",
                         ),
                       ],
@@ -247,7 +318,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           isChecked: true,
                           onChecked: (value) {},
                         ),
-                        Image.asset(
+                        Image.network(
                           "https://aymantaher.com/Furniture/image/coffe 3.jpg",
                         ),
                       ],

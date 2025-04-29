@@ -195,11 +195,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             SizedBox(
               height: 26,
               child: CustomListViewSelectColorWidget(
-                colors: [
-                  AppColors.primaryColor,
-                  AppColors.primaryColor,
-                  AppColors.primaryColor,
-                ],
+                hexColors: [],
               ),
             ),
             SizedBox(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/order/presentation/views/payment_successfuly.dart';
+import 'package:furni_quest/features/profile/presentation/views/manage_adreess.dart';
+import 'package:furni_quest/features/profile/presentation/views/my_order_screen.dart';
 import 'package:furni_quest/features/profile/presentation/views/privacy_view.dart';
 import 'package:furni_quest/features/profile/presentation/views/profile_view.dart';
 import 'package:furni_quest/features/profile/presentation/views/second_settings_view.dart';
@@ -100,10 +103,30 @@ class SettingsView extends StatelessWidget {
                       );
                     },
                   ),
-                  _buildItem(
-                      context, Icons.location_on, 'Manage Address', () {}),
-                  _buildItem(context, Icons.payment, 'Payment Methods', () {}),
-                  _buildItem(context, Icons.shopping_bag, 'My Orders', () {}),
+                  _buildItem(context, Icons.location_on, 'Manage Address', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ManageAddressScreen(),
+                      ),
+                    );
+                  }),
+                  _buildItem(context, Icons.payment, 'Payment Methods', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PaymentSuccessScreen(),
+                      ),
+                    );
+                  }),
+                  _buildItem(context, Icons.shopping_bag, 'My Orders', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyOrdersScreen(),
+                      ),
+                    );
+                  }),
                   _buildItem(
                     context,
                     Icons.settings,

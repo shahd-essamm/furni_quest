@@ -15,7 +15,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 340,
+      width: double.infinity,
       height: 70,
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -35,18 +35,16 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: bottomNavigationBarItems.asMap().entries.map((e) {
           var index = e.key;
           var entity = e.value;
-          return Expanded(
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                  widget.onItemTapped(index);
-                });
-              },
-              child: NaivgationBarItem(
-                isSelected: selectedIndex == index,
-                bottomNavigationBarEntity: entity,
-              ),
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedIndex = index;
+                widget.onItemTapped(index);
+              });
+            },
+            child: NaivgationBarItem(
+              isSelected: selectedIndex == index,
+              bottomNavigationBarEntity: entity,
             ),
           );
         }).toList(),

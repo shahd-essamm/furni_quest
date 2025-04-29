@@ -11,12 +11,25 @@ class ActiveItem extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
+        borderRadius: BorderRadius.circular(50),
         color: AppColors.primaryColor.withOpacity(0.2),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: image,
+        child: Row(
+          children: [
+            image,
+            SizedBox(width: 2),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primaryColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

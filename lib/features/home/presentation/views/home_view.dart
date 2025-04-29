@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/category_card_list_view.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/custom_carousel_slider.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/custom_search_field.dart';
@@ -46,11 +47,21 @@ class _HomeViewState extends State<HomeView> {
           children: [
             Text(
               'Location',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Color(0xff6E726C),
+              ),
+            ),
+            SizedBox(
+              height: 4,
             ),
             Row(
               children: [
-                Icon(Icons.location_on, color: Colors.black, size: 16),
+                SvgPicture.asset("assets/Location.svg"),
+                SizedBox(
+                  width: 6,
+                ),
                 Text(
                   'New Cairo, Egypt',
                   style: TextStyle(
@@ -64,19 +75,24 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.favorite_border, color: Colors.black),
-            onPressed: () {
+          InkWell(
+            onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WishListView(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WishListView(),
+                ),
+              );
             },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                'assets/favorite-ouline.svg',
+              ),
+            ),
           ),
-          IconButton(
-            icon: Icon(Icons.notifications_none, color: Colors.black),
-            onPressed: () {
+          InkWell(
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -84,6 +100,15 @@ class _HomeViewState extends State<HomeView> {
                 ),
               );
             },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                'assets/Notification.svg',
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 8,
           ),
         ],
       ),
@@ -91,7 +116,9 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Search Field
+            SizedBox(
+              height: 16,
+            ), // Search Field
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: CustomSearchField(

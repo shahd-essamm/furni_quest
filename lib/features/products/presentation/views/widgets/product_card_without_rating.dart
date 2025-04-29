@@ -56,7 +56,7 @@ class ProductCardWithoutRating extends StatelessWidget {
               Center(
                 child: SizedBox(
                   height: 150,
-                  child: Image.asset(
+                  child: Image.network(
                     imagePath,
                     width: 120,
                     height: 120,

@@ -20,7 +20,7 @@ class MainViewBody extends StatelessWidget {
         HomeView(),
         CategoriesView(),
         Center(
-          child: Text("Scann View"),
+          child: Text("Discover View"),
         ),
         CartView(),
         SettingsView(),

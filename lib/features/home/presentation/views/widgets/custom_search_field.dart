@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/camera_view.dart';
 import 'package:furni_quest/features/home/presentation/views/widgets/search_chair_view.dart';
 import 'package:furni_quest/features/search/presentation/views/search_view.dart';
@@ -31,14 +32,14 @@ class CustomSearchField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'What are you looking for?',
           prefixIcon: Icon(Icons.search, color: Colors.grey),
-          suffixIcon: IconButton(
-            icon: Icon(
-              isSearch ? Icons.filter_list : Icons.qr_code_scanner,
-              color: Colors.grey,
-            ),
-            onPressed: () {
-              isSearch
-                  ? showModalBottomSheet(
+          suffixIcon: isSearch
+              ? IconButton(
+                  icon: Icon(
+                    Icons.filter_list,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet(
                       sheetAnimationStyle: AnimationStyle(
                         curve: Curves.easeInOut,
                         duration: Duration(milliseconds: 300),
@@ -56,16 +57,27 @@ class CustomSearchField extends StatelessWidget {
                           print(filters); // اعمل فلترة باستخدام القيم المختارة
                         },
                       ),
-                    )
-                  : Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CameraView(),
-                      ),
                     );
-              // pickImage(ImageSource.camera);
-            },
-          ),
+                  },
+                )
+              : Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CameraView(),
+                        ),
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      "assets/Scan.svg",
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
+              ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.grey.shade300),

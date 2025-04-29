@@ -15,11 +15,11 @@ class NaivgationBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return isSelected
         ? ActiveItem(
-            image: bottomNavigationBarEntity.activeImage,
+            image: bottomNavigationBarEntity.icon,
             text: bottomNavigationBarEntity.name,
           )
         : InActiveItem(
-            image: bottomNavigationBarEntity.inActiveImage,
+            image: bottomNavigationBarEntity.icon,
           );
   }
 }
