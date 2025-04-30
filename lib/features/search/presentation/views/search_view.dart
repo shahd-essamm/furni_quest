@@ -13,11 +13,26 @@ class SearchView extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 48),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: CustomSearchField(
-              isSearch: true,
-            ),
+          Row(
+            children: [
+              IconButton(
+                padding: EdgeInsets.zero,
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: CustomSearchField(
+                  isSearch: true,
+                ),
+              ),
+              SizedBox(width: 16),
+            ],
           ),
           const SizedBox(height: 8),
           Expanded(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LeaveReviewScreen extends StatefulWidget {
   final String image;
@@ -60,7 +61,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
+                    child: Image.asset(
                       widget.image,
                       width: 60,
                       height: 60,
@@ -174,8 +175,8 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
             const SizedBox(height: 12),
 
             Row(
-              children: const [
-                Icon(Icons.photo_camera, color: Color(0xFF515E4D)),
+              children: [
+                SvgPicture.asset("assets/camera.svg"),
                 SizedBox(width: 8),
                 Text(
                   'Add photo',
@@ -208,21 +209,17 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
                 children: List.generate(5, (index) {
                   return Row(
                     children: [
-                      IconButton(
-                        onPressed: () {
+                      GestureDetector(
+                        onTap: () {
                           setState(() {
                             rating = index + 1.0;
                           });
                         },
-                        icon: Icon(
-                          Icons.star,
-                          size: 24,
-                          color: rating > index
-                              ? const Color(0xFFEEB417)
-                              : const Color(0xFFC8C8C8),
-                        ),
+                        child: rating > index
+                            ? SvgPicture.asset("assets/Star.svg")
+                            : SvgPicture.asset("assets/Star-outline.svg"),
                       ),
-                      if (index != 4) const SizedBox(width: 8),
+                      if (index != 4) const SizedBox(width: 12),
                     ],
                   );
                 }),

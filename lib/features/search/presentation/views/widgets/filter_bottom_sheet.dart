@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
+import 'package:furni_quest/features/home/data/models/product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_list_view_selected_color.dart';
 
@@ -64,6 +65,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
       constraints: BoxConstraints(
         maxHeight:
             MediaQuery.of(context).size.height * 0.85, // مثلاً 85% من الشاشة
@@ -195,7 +203,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             SizedBox(
               height: 26,
               child: CustomListViewSelectColorWidget(
-                hexColors: [],
+                hexColors: [
+                 ImageModel(imageUrl: "", color: "black", colorHex: "#000000"),
+                 ImageModel(imageUrl: "", color: "red", colorHex: "#dd0000"),
+                ],
               ),
             ),
             SizedBox(
@@ -347,9 +358,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   color: AppColors.primaryColor,
                 ),
               ),
-              Icon(isExpanded
-                  ? Icons.keyboard_arrow_up
-                  : Icons.keyboard_arrow_down),
+              Icon(
+                isExpanded
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
+              ),
             ],
           ),
         ),
@@ -371,6 +384,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         final isSelected = option == selected;
         return ChoiceChip(
           label: Text(option),
+          backgroundColor: Colors.white,
           selected: isSelected,
           onSelected: (_) => onChanged(option),
           selectedColor: Colors.white,
