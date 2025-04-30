@@ -28,6 +28,8 @@ class ProductDetailsView extends StatefulWidget {
 class _ProductDetailsViewState extends State<ProductDetailsView> {
   late String imageSelected;
   int quantity = 1;
+  bool isChecked = false;
+  List<bool> isCheckedList = List.generate(10, (_) => false);
 
   @override
   void initState() {
@@ -40,13 +42,35 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.product.name),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                'assets/Share.svg',
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                'assets/favorite-ouline.svg',
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 8,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -55,22 +79,25 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Image.network(
-                  imageSelected,
-                  width: 150,
-                  height: 150,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 150,
-                      height: 150,
-                      color: Colors.grey.shade200,
-                      child: const Icon(
-                        Icons.image_not_supported,
-                        size: 60,
-                        color: Colors.grey,
-                      ),
-                    );
-                  },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    imageSelected,
+                    width: 150,
+                    height: 150,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 150,
+                        height: 150,
+                        color: Colors.grey.shade200,
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: 16),
@@ -160,7 +187,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                       Text(
                         widget.product.style,
                         style: TextStyle(
@@ -192,7 +219,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 ],
               ),
               SizedBox(
-                height: 16,
+                height: 8,
               ),
               Text(
                 widget.product.description,
@@ -203,7 +230,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 ),
               ),
               SizedBox(
-                height: 16,
+                height: 8,
               ),
               Row(
                 children: [
@@ -285,46 +312,58 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               SizedBox(
                 height: 16,
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CustomCheckBox(
-                          isChecked: false,
-                          onChecked: (value) {},
-                        ),
-                        Image.network(
-                          "https://aymantaher.com/Furniture/image/coffe 3.jpg",
-                        ),
-                      ],
-                    ),
+              SizedBox(
+                height: 124,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 10,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomCheckBox(
+                        isChecked: isCheckedList[index],
+                        onChecked: (value) {
+                          setState(() {
+                            isCheckedList[index] = value;
+                          });
+                        },
+                      ),
+                      Row(
+                        children: [
+                          Image.network(
+                            "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                            width: 100,
+                            height: 100,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey.shade200,
+                              child: const Icon(
+                                Icons.image_not_supported,
+                                size: 40,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          if (index != 10 - 1) ...[
+                            SizedBox(width: 8),
+                            Text(
+                              "+",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                          ]
+                        ],
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 8),
-                  Text(
-                    "+",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CustomCheckBox(
-                          isChecked: true,
-                          onChecked: (value) {},
-                        ),
-                        Image.network(
-                          "https://aymantaher.com/Furniture/image/coffe 3.jpg",
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
               SizedBox(
                 height: 8,

@@ -31,21 +31,22 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'],
-      name: json['name'],
-      price: json['price'],
-      style: json['style'],
-      description: json['description'],
-      itemId: json['item_id'],
-      colorPalette: json['color_palette'],
-      categoryId: json['category_id'],
-      categoryName: json['category_name'],
-      designCode: json['design_code'],
-      subcategoryId: json['subcategory_id'],
-      subcategoryName: json['subcategory_name'],
-      images: List<ImageModel>.from(
-        json['images'].map((x) => ImageModel.fromJson(x)),
-      ),
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      price: json['price'] ?? '',
+      style: json['style'] ?? '',
+      description: json['description'] ?? '',
+      itemId: json['item_id'] ?? '',
+      colorPalette: json['color_palette'] ?? '',
+      categoryId: json['category_id'] ?? '',
+      categoryName: json['category_name'] ?? '',
+      designCode: json['design_code'] ?? '',
+      subcategoryId: json['subcategory_id'] ?? '',
+      subcategoryName: json['subcategory_name'] ?? '',
+      images: (json['images'] as List<dynamic>?)
+              ?.map((x) => ImageModel.fromJson(x))
+              .toList() ??
+          [],
     );
   }
 }
