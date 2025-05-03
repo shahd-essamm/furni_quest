@@ -1,5 +1,5 @@
 class NewArrivalModel {
-  final String productId;
+  final int productId;
   final String image;
 
   NewArrivalModel({

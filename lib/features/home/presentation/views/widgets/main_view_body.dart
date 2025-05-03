@@ -19,9 +19,7 @@ class MainViewBody extends StatelessWidget {
       children: const [
         HomeView(),
         CategoriesView(),
-        Center(
-          child: Text("Discover View"),
-        ),
+        SizedBox.shrink(),
         CartView(),
         SettingsView(),
       ],

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:furni_quest/core/services/api_ocnstants.dart';
 
@@ -12,6 +14,22 @@ class ApiServices {
   }) async {
     final url = "${ApiConstants.apiBaseUrl}$endpoint";
     return await dio.post(url, data: data);
+  }
+
+  Future<Response> postMultipartData({
+    required File imageFile,
+  }) async {
+    final url =
+        "${ApiConstants.apiBaseUrl}${ApiConstants.colorPaletteWithPhoto}";
+
+    FormData formData = FormData.fromMap({
+      "image": await MultipartFile.fromFile(
+        imageFile.path,
+        filename: "upload.jpg",
+      ),
+    });
+
+    return await dio.post(url, data: formData);
   }
 
   Future<Response> getCategoryById({

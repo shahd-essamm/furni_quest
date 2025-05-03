@@ -19,4 +19,5 @@ class ApiConstants {
   static const String recommendedForYou =
       "product/PRecommendation.php?action=recommended_for_you";
   static const String newArrival = "product/New_Arrival.php";
+  static const String colorPaletteWithPhoto = "product/filter_search.php";
 }

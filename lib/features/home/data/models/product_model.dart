@@ -1,15 +1,15 @@
 class ProductModel {
-  final String id;
+  final int id;
   final String name;
   final String price;
   final String style;
   final String description;
   final String itemId;
   final String colorPalette;
-  final String categoryId;
+  final int categoryId;
   final String categoryName;
   final String designCode;
-  final String subcategoryId;
+  final int subcategoryId;
   final String subcategoryName;
   final List<ImageModel> images;
 
@@ -31,17 +31,17 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'] ?? '',
+      id: json['id'] ?? 0,
       name: json['name'] ?? '',
       price: json['price'] ?? '',
       style: json['style'] ?? '',
       description: json['description'] ?? '',
       itemId: json['item_id'] ?? '',
       colorPalette: json['color_palette'] ?? '',
-      categoryId: json['category_id'] ?? '',
+      categoryId: json['category_id'] ?? 0,
       categoryName: json['category_name'] ?? '',
       designCode: json['design_code'] ?? '',
-      subcategoryId: json['subcategory_id'] ?? '',
+      subcategoryId: json['subcategory_id'] ?? 0,
       subcategoryName: json['subcategory_name'] ?? '',
       images: (json['images'] as List<dynamic>?)
               ?.map((x) => ImageModel.fromJson(x))

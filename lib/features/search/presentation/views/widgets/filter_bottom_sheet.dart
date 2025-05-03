@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:furni_quest/core/helper_functions/build_chips.dart';
+import 'package:furni_quest/core/helper_functions/build_expandble_section.dart';
+import 'package:furni_quest/core/helper_functions/build_price_item.dart';
+import 'package:furni_quest/core/helper_functions/build_section_title.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
-import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
 import 'package:furni_quest/features/home/data/models/product_model.dart';
-import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_list_view_selected_color.dart';
 
 class FilterBottomSheet extends StatefulWidget {
@@ -111,15 +113,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               height: 24,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: _buildExpandableSection(
+                  child: buildExpandableSection(
                     title: "For",
                     isExpanded: showForOptions,
                     onToggle: () =>
                         setState(() => showForOptions = !showForOptions),
-                    child: _buildChips(
-                        ['all', 'Garden', 'Kitchen'], selectedFor, (val) {
+                    child: buildChips(['all', 'Garden', 'Kitchen'], selectedFor,
+                        (val) {
                       setState(() => selectedFor = val);
                     }),
                   ),
@@ -128,12 +131,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   width: 24,
                 ),
                 Expanded(
-                  child: _buildExpandableSection(
+                  child: buildExpandableSection(
                     title: "Product",
                     isExpanded: showProductOptions,
                     onToggle: () => setState(
                         () => showProductOptions = !showProductOptions),
-                    child: _buildChips(
+                    child: buildChips(
                         ['all', 'chairs', 'seat'], selectedProduct, (val) {
                       setState(() => selectedProduct = val);
                     }),
@@ -144,7 +147,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             SizedBox(
               height: 16,
             ),
-            _buildExpandableSection(
+            buildExpandableSection(
               title: "Price",
               isExpanded: showPriceOptions,
               onToggle: () =>
@@ -155,7 +158,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 children: priceRanges.map((range) {
                   return SizedBox(
                     width: (MediaQuery.of(context).size.width - 64) / 2,
-                    child: _buildPriceItem(
+                    child: buildPriceItem(
                       priceRange: range,
                       isSelected: selectedPrice == range,
                       onTap: () {
@@ -171,7 +174,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             SizedBox(
               height: 16,
             ),
-            _buildExpandableSection(
+            buildExpandableSection(
               title: "Style",
               isExpanded: showStyleOptions,
               onToggle: () =>
@@ -179,7 +182,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildChips(['modern', 'classic', 'rustic'], selectedStyle,
+                  buildChips(['modern', 'classic', 'rustic'], selectedStyle,
                       (val) {
                     setState(() => selectedStyle = val);
                   }),
@@ -199,20 +202,20 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             SizedBox(
               height: 16,
             ),
-            _buildSectionTitle('Colors'),
+            buildSectionTitle('Colors'),
             SizedBox(
               height: 26,
               child: CustomListViewSelectColorWidget(
                 hexColors: [
-                 ImageModel(imageUrl: "", color: "black", colorHex: "#000000"),
-                 ImageModel(imageUrl: "", color: "red", colorHex: "#dd0000"),
+                  ImageModel(imageUrl: "", color: "black", colorHex: "#000000"),
+                  ImageModel(imageUrl: "", color: "red", colorHex: "#dd0000"),
                 ],
               ),
             ),
             SizedBox(
               height: 16,
             ),
-            _buildSectionTitle('Rates'),
+            buildSectionTitle('Rates'),
             SizedBox(
               height: 8,
             ),
@@ -290,114 +293,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildPriceItem({
-    required String priceRange,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          children: [
-            CustomCheckBox(
-              isChecked: isSelected,
-              onChecked: (_) => onTap(),
-            ),
-            SizedBox(width: 8),
-            Text(
-              priceRange,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.primaryColor,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 6),
-      child: Text(
-        title,
-        style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryColor),
-      ),
-    );
-  }
-
-  Widget _buildExpandableSection({
-    required String title,
-    required bool isExpanded,
-    required VoidCallback onToggle,
-    required Widget child,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: onToggle,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
-                ),
-              ),
-              Icon(
-                isExpanded
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-              ),
-            ],
-          ),
-        ),
-        if (isExpanded) ...[
-          SizedBox(height: 8),
-          child,
-          SizedBox(height: 12),
-        ],
-        CustomDividerWidget(),
-      ],
-    );
-  }
-
-  Widget _buildChips(
-      List<String> options, String selected, Function(String) onChanged) {
-    return Wrap(
-      spacing: 8,
-      children: options.map((option) {
-        final isSelected = option == selected;
-        return ChoiceChip(
-          label: Text(option),
-          backgroundColor: Colors.white,
-          selected: isSelected,
-          onSelected: (_) => onChanged(option),
-          selectedColor: Colors.white,
-          labelStyle: TextStyle(
-            color: isSelected ? AppColors.primaryColor : Colors.grey[400]!,
-          ),
-          side: BorderSide(
-            color: isSelected ? AppColors.primaryColor : Colors.grey[400]!,
-            width: 1.0,
-          ),
-          showCheckmark: false,
-        );
-      }).toList(),
     );
   }
 }

@@ -94,18 +94,18 @@ class _CheckoutViewState extends State<CheckoutView> {
             itemBuilder: (context, index) {
               return ProductCard(
                 product: ProductModel(
-                  id: "10",
+                  id: 10,
                   name: 'Bed',
                   price: "100",
                   images: [],
                   description: "ss",
                   style: "ss",
-                  categoryId: "",
+                  categoryId: 1,
                   categoryName: "",
                   colorPalette: "",
                   designCode: "",
                   itemId: "",
-                  subcategoryId: "",
+                  subcategoryId: 2,
                   subcategoryName: "",
                 ),
                 isFavorite: true,
