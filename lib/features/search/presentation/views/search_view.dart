@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_quest/features/home/presentation/views/widgets/custom_search_field.dart';
+import 'package:furni_quest/features/home/presentation/widgets/custom_widgets/custom_search_field.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});

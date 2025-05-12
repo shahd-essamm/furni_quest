@@ -1,10 +1,29 @@
+// {
+//         "id": 21,
+//         "name": "Bed Set 2",
+//         "price": 1550,
+//         "style": "Modern",
+//         "description": "Comfortable modern bed set",
+//         "item_id": 8,
+//         "color_palette": "[\"#C3B4AE\", \"#AFA3A2\", \"#8C7B83\", \"#6C545E\", \"#503D47\", \"#3A2E30\"]",
+//         "category_id": 2,
+//         "category": "Bedroom",
+//         "subcategory_id": 1,
+//         "subcategory": "Beds",
+//         "design_code": "BED002",
+//         "apk_url": null,
+//         "brand": "JYSK",
+//         "image": "https://aymantaher.com/Furniture/image/bed2.jpg"
+//     },
+
+
 class ProductModel {
   final int id;
   final String name;
-  final String price;
+  final int price; 
   final String style;
   final String description;
-  final String itemId;
+  final int itemId; 
   final String colorPalette;
   final int categoryId;
   final String categoryName;

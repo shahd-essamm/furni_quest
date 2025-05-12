@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_quest/features/home/presentation/views/main_view.dart';
+import 'package:furni_quest/features/home/presentation/screens/main_view.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
