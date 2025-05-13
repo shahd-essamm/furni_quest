@@ -8,22 +8,11 @@ part 'category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   final CategoryRepo categoryRepo;
-  List <SubCategory> _subCategory = [];
+  // List <SubCategory> _subCategory = [];
+  // List<CategoryProductModel> _categoryProductModel = [];
   late CategoryProductModel productId;
-  List<CategoryProductModel> _categoryProductModel = [];
   CategoryCubit(this.categoryRepo) : super(CategoryPacakgeInitial());
 
-
-
-/*  void getAllNewArrival() async {
-    emit(NewArrivalLoading());
-    try {
-      final allNewArrival = await newArrivalRepo.getAllNewArrival();
-      emit(NewArrivalSuccess(allNewArrival));
-    } catch (e) {
-      emit(NewArrivalFailure(e.toString()));
-    }
-  } */
 
 void getAllSubCategory() async {
   emit(CategoryLoading());
@@ -49,13 +38,6 @@ void getAllSubCategory() async {
     });
   }
 
-  // void getSubCategoryProductsById(int categoryId)async{
-  //   emit(CategoryLoading());
-  //   final products = await categoryRepo.getSubCategoryProductsById(categoryId);
-  //   categoryRepo.getSubCategoryProductsById(categoryId).then((subCategoryProductsList){
-  //     emit(SubCategoryProductsLoaded(subCategoryProductsList));
-  //   });
-  // }
   Future<void> getSubCategoryProductsById(int categoryId) async {
     emit(CategoryLoading());
     try {

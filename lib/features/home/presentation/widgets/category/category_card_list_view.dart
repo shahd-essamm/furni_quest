@@ -1,42 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furni_quest/core/services/injection.dart';
 import 'package:furni_quest/features/home/bussniss_logic/cubits/category_cubit/category_cubit.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_model.dart';
+import 'package:furni_quest/features/home/data/repos/category_repo.dart';
 import 'package:furni_quest/features/home/presentation/widgets/category/category_item.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CategoryCardListView extends StatefulWidget {
+class CategoryCardListView extends StatelessWidget {
   const CategoryCardListView({super.key});
-
-
-  @override
-  State<CategoryCardListView> createState() => _CategoryCardListViewState();
-}
-
-class _CategoryCardListViewState extends State<CategoryCardListView> {
-  @override
-  void initState() {
-    super.initState();
-    // Trigger data loading when widget initializes
-    context.read<CategoryCubit>().getAllSubCategory();
-  }
   @override
     Widget build(BuildContext context) {
-    return BlocBuilder<CategoryCubit, CategoryState>(
-      builder: (context, state) {
-        if (state is SubCategoriesLoaded) {
-          final categories = state.subCategories;
-          
-          // Debug print to verify data
-          debugPrint('Loaded ${categories.length} categories');
-          
-          return SizedBox(
-            height: 100, // Fixed height for the horizontal list
+    return BlocProvider(
+      create: (context)=>CategoryCubit(getIt.get<CategoryRepo>(),)
+        ..getAllSubCategory(),
+        child: BlocConsumer<CategoryCubit,CategoryState>(
+          listener: (context, state) {
+          if (state is CategoryError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+          }, builder: (context,state) { 
+            if (state is CategoryLoading) {
+              return _buildLoadingShimmer();
+            } else if (state is SubCategoriesLoaded) {
+              return _buildCategoryList(state.subCategories);
+            } else if (state is CategoryError) {
+              return Center(child: Text(state.message));
+            } else {
+              return const SizedBox();
+            }
+           },
+        ),
+    );
+  }
+
+  Widget _buildCategoryList(List<SubCategory> subCategories) {
+    return SizedBox(
+            height: 95, // Fixed height for the horizontal list
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
+              itemCount: subCategories.length,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemBuilder: (context, index) {
-                final category = categories[index];
+                final category = subCategories[index];
                 return Container(
                   width: 80,
                   margin: const EdgeInsets.only(right: 12),
@@ -47,16 +55,6 @@ class _CategoryCardListViewState extends State<CategoryCardListView> {
               },
             ),
           );
-        } 
-        else if (state is CategoryLoading) {
-          return _buildLoadingShimmer();
-        }
-        else if (state is CategoryError) {
-          return Center(child: Text('Error: ${state.message}'));
-        }
-        return _buildLoadingShimmer(); // Initial state
-      },
-    );
   }
 
   Widget _buildLoadingShimmer() {

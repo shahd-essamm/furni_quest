@@ -1,16 +1,73 @@
 class NewArrivalModel {
-  final int productId;
-  final String image;
+  final int id;
+  final String name;
+  final int price;
+  final String style;
+  final String description;
+  final int itemId;
+  final String colorPalette;
+  final int categoryId;
+  final String designCode;
+  final int subcategoryId;
+  final String? apkUrl;
+  final String brand;
+  final List<NewArrivalImages> images;
 
   NewArrivalModel({
-    required this.productId,
-    required this.image,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.style,
+    required this.description,
+    required this.itemId,
+    required this.colorPalette,
+    required this.categoryId,
+    required this.designCode,
+    required this.subcategoryId,
+    required this.apkUrl,
+    required this.brand,
+    required this.images,
   });
 
   factory NewArrivalModel.fromJson(Map<String, dynamic> json) {
     return NewArrivalModel(
-      productId: json['product_id'],
-      image: json['image'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      price: json['price'] ?? '',
+      style: json['style'] ?? '',
+      description: json['description'] ?? '',
+      itemId: json['item_id'] ?? '',
+      colorPalette: json['color_palette'] ?? '',
+      categoryId: json['category_id'] ?? 0,
+      designCode: json['design_code'] ?? '',
+      subcategoryId: json['subcategory_id'] ?? 0,
+      images: (json['images'] as List<dynamic>?)
+              ?.map((x) => NewArrivalImages.fromJson(x))
+              .toList() ??
+          [],
+      apkUrl: '',
+      brand: '',
+    );
+  }
+}
+
+class NewArrivalImages {
+  final int id;
+  final String imageUrl;
+  final String color;
+  final String colorHex;
+  NewArrivalImages({
+    required this.id,
+    required this.imageUrl,
+    required this.color,
+    required this.colorHex,
+  });
+  factory NewArrivalImages.fromJson(Map<String, dynamic> json) {
+    return NewArrivalImages(
+      id: json['id']??'',
+      imageUrl: json['image_url']??'',
+      color: json['color']??'',
+      colorHex: json['color_hex']??'',
     );
   }
 }

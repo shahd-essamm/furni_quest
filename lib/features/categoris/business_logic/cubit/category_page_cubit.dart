@@ -8,13 +8,15 @@ part 'category_page_state.dart';
 class CategoryPageCubit extends Cubit<CategoryPageState> {
   final CategoryRepo categoryRepo;
   List<CategoryModel> _categories = [];
+  List<SubCategoryModel> _subCategories = [];
 
   CategoryPageCubit(this.categoryRepo) : super(CategoryPageInitial());
   void getAllCategoriesOnly() async {
     emit(CategoryLoading());
     try {
       _categories = await categoryRepo.getAllCategory();
-      emit(CategoryLoaded(categoryList: _categories, subCategoryModel: []));
+      _subCategories = await categoryRepo.getSubCategory();
+      emit(CategoryLoaded(categoryList: _categories, subCategoryModel: _subCategories));
     } catch (e) {
       emit(CategoryError("Failed to load categories"));
     }

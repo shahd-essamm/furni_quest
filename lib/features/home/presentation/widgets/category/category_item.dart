@@ -5,8 +5,6 @@ import 'package:furni_quest/features/home/presentation/widgets/category/category
 class CategoryItem extends StatefulWidget {
   const CategoryItem({super.key, required this.subCategory});
   final SubCategory subCategory;
-  // final CategoryProductModel categoryProductModel;
-
   @override
   State<CategoryItem> createState() => _CategoryItemState();
 }

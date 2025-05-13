@@ -8,16 +8,12 @@ import 'package:furni_quest/features/home/presentation/widgets/new_arrivals/new_
 import 'package:shimmer/shimmer.dart';
 
 class NewArrivalsListView extends StatelessWidget {
-  const NewArrivalsListView({
-    super.key,
-  });
+  const NewArrivalsListView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NewArrivalCubit(
-        getIt.get<NewArrivalRepo>(),
-      )..getAllNewArrival(),
+      create: (context) => NewArrivalCubit(getIt.get<NewArrivalRepo>())..getAllNewArrival(),
       child: BlocConsumer<NewArrivalCubit, NewArrivalState>(
         listener: (context, state) {
           if (state is NewArrivalFailure) {
@@ -28,21 +24,15 @@ class NewArrivalsListView extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is NewArrivalLoading) {
+            return _buildShimmerList();
+          } else if (state is NewArrivalSuccess) {
             return SizedBox(
               height: 103,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) => const ShimmerNewArrivalItem(),
-              ),
-            );
-          }
-          if (state is NewArrivalSuccess) {
-            return SizedBox(
-              height: 103,
-              child: ListView.builder(
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 scrollDirection: Axis.horizontal,
                 itemCount: state.newArrivalModel.length,
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
                 itemBuilder: (context, index) => NewArrivalItem(
                   newArrival: state.newArrivalModel[index],
                 ),
@@ -52,6 +42,19 @@ class NewArrivalsListView extends StatelessWidget {
             return const SizedBox();
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildShimmerList() {
+    return SizedBox(
+      height: 103,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        scrollDirection: Axis.horizontal,
+        itemCount: 10,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (context, index) => const ShimmerNewArrivalItem(),
       ),
     );
   }
@@ -66,11 +69,12 @@ class ShimmerNewArrivalItem extends StatelessWidget {
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
       child: Container(
-        width: 100,
-        margin: const EdgeInsets.symmetric(horizontal: 8),
+        width: 103,
+        height: 98,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey.shade300),
         ),
       ),
     );

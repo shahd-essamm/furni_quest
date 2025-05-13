@@ -333,7 +333,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       Row(
                         children: [
                           Image.network(
-                            "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                            "https://aymantaher.com/Furniture/image/coffe3.jpg",
                             width: 100,
                             height: 100,
                             errorBuilder: (context, error, stackTrace) =>
@@ -513,40 +513,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Product Comparison",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primaryColor,
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 157 / 176.32,
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children: List.generate(
-                  2,
-                  (index) => ProductCardWithoutRating(
-                    isFavorite: false,
-                    onFavoritePressed: () {},
-                    imagePath:
-                        "https://aymantaher.com/Furniture/image/coffe 3.jpg",
-                    name: widget.product.name,
-                    price: "200",
-                  ),
-                ),
-              ),
+              ),             
               SizedBox(
                 height: 24,
               ),
@@ -565,7 +532,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 157 / 176.32,
+                childAspectRatio: 0.8,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: List.generate(
@@ -574,7 +541,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     isFavorite: false,
                     onFavoritePressed: () {},
                     imagePath:
-                        "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                        widget.product.images[index].imageUrl,
                     name: widget.product.name,
                     price: "200",
                   ),

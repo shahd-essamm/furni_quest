@@ -95,9 +95,9 @@ class _CategoryCardDetailsState extends State<CategoryCardDetails> {
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 child: AspectRatio(
                   aspectRatio: 1.1,
-                  child: product.images.isNotEmpty
+                  child: product.image!.isNotEmpty
                       ? Image.network(
-                          product.images.first.image,
+                          product.image??'',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               _buildImagePlaceholder(),
@@ -132,7 +132,7 @@ class _CategoryCardDetailsState extends State<CategoryCardDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.name,
+                          product.name??'',
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -142,7 +142,7 @@ class _CategoryCardDetailsState extends State<CategoryCardDetails> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          product.style,
+                          product.style??'',
                           style: const TextStyle(
                             color: Colors.amber,
                             fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _CategoryCardDetailsState extends State<CategoryCardDetails> {
                     ),
                     Flexible(
                       child: Text(
-                        '\$${product.price.toStringAsFixed(0)}',
+                        '\$${product.price!.toStringAsFixed(0)}',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,

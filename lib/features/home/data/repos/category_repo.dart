@@ -8,14 +8,12 @@ class CategoryRepo {
   final CategoryWebServices categoryWebServcies;
 
   CategoryRepo(this.categoryWebServcies);
-Future<List<SubCategory>> getAllSubCategory() async {
-  print('Fetching subcategories...');
-  var response = await categoryWebServcies.getAllSubCategory();
-  print('Received ${response.length} items');
-  return response
-      .map((subCategory) => SubCategory.fromJson(subCategory.toJson()))
-      .toList();
-}
+  Future<List<SubCategory>> getAllSubCategory() async {
+    var response = await categoryWebServcies.getAllSubCategory();
+    return response
+        .map((subCategory) => SubCategory.fromJson(subCategory.toJson()))
+        .toList();
+  }
 
   Future<List<SubCategoryDetails>> getAllSubCategoryDetails() async {
     var response = await categoryWebServcies.getAllSubCategoryDetails();
@@ -58,15 +56,16 @@ Future<List<SubCategory>> getAllSubCategory() async {
         .toList();
   }
 
-  Future<List<CategoryProductModel>> getSubCategoryProductsById(int categoryId) async {
-    try {
-      final response = await categoryWebServcies.getSubCategoryProductsById(categoryId);
-      return response;
-    } catch (e) {
-      throw Exception('Failed to load products: $e');
-    }
+ Future<List<CategoryProductModel>> getSubCategoryProductsById(int categoryId) async {
+  try {
+    final response = await categoryWebServcies.getSubCategoryProductsById(categoryId);
+    return response.map((product) => CategoryProductModel.fromJson(product.toJson())).toList();
+  } catch (e) {
+    throw Exception('Failed to load products: $e');
   }
-  Future<CategoryProductModel> getProductById(int productId)async {
+}
+
+  Future<CategoryProductModel> getProductById(int productId) async {
     var response = await categoryWebServcies.getProductById(productId);
     return response;
   }

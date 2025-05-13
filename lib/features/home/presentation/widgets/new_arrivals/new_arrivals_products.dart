@@ -3,25 +3,26 @@ import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
-import 'package:furni_quest/features/home/data/models/category_product_model.dart';
+import 'package:furni_quest/features/home/data/models/new_arrival_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/custom_list_view_select_color_newArrivals.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
 
-class CategoryProductDetails extends StatefulWidget {
-  final CategoryProductModel product;
+// Global cart list
+List<Map<String, dynamic>> cartItems = [];
 
-  const CategoryProductDetails({
-    super.key, 
-    required this.product,
-  });
+class NewArrivalsProducts extends StatefulWidget {
+  final NewArrivalModel product;
+
+  const NewArrivalsProducts({super.key, required this.product});
 
   @override
-  State<CategoryProductDetails> createState() => _CategoryProductDetailsState();
+  State<NewArrivalsProducts> createState() => _NewArrivalsProductsState();
 }
 
-class _CategoryProductDetailsState extends State<CategoryProductDetails> {
+class _NewArrivalsProductsState extends State<NewArrivalsProducts> {
   late String imageSelected;
   int quantity = 1;
   bool isChecked = false;
@@ -30,7 +31,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
   @override
   void initState() {
     super.initState();
-    imageSelected = widget.product.image!;
+    imageSelected = widget.product.images.isNotEmpty
+        ? widget.product.images[0].imageUrl
+        : '';
   }
 
   @override
@@ -41,7 +44,7 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
@@ -63,7 +66,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(
+            width: 8,
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -75,26 +80,74 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    imageSelected,
-                    width: 150,
-                    height: 150,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        width: 150,
-                        height: 150,
-                        color: Colors.grey.shade200,
-                        child: const Icon(
-                          Icons.image_not_supported,
-                          size: 60,
-                          color: Colors.grey,
+                  child: imageSelected.isNotEmpty
+                      ? Image.network(
+                          imageSelected,
+                          width: 150,
+                          height: 150,
+                          errorBuilder: (context, error, stackTrace) =>
+                              _placeholderImage(),
+                        )
+                      : _placeholderImage(),
+                ),
+              ),
+              SizedBox(height: 16),
+              Center(
+                child: SizedBox(
+                  height: 60,
+                  width: 218,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.product.images.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              imageSelected =
+                                  widget.product.images[index].imageUrl;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: imageSelected ==
+                                        widget.product.images[index].imageUrl
+                                    ? AppColors.primaryColor
+                                    : Colors.transparent,
+                                width: 1,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                widget.product.images[index].imageUrl,
+                                width: 60,
+                                height: 55,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 60,
+                                    height: 55,
+                                    color: Colors.grey.shade200,
+                                    child: const Icon(
+                                      Icons.image_not_supported,
+                                      size: 40,
+                                      color: Colors.grey,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ),
                       );
                     },
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 8),
               Row(
                 children: [
                   Column(
@@ -103,46 +156,48 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                       Row(
                         children: [
                           Text(
-                            widget.product.name!,
+                            widget.product.name,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                               color: AppColors.primaryColor,
                             ),
                           ),
-                          const SizedBox(width: 4),
-                          const Icon(
+                          SizedBox(width: 4),
+                          Icon(
                             Icons.star,
                             color: Colors.amber,
                           ),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4),
                           Text(
-                            "4.5", // You might want to get this from the product model
-                            style: const TextStyle(
+                            "4.5",
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Text(
-                        widget.product.brand!,
+                        widget.product.style,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xffBCBCBC),
+                          color: Color(
+                            0xffBCBCBC,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const Spacer(),
+                  Spacer(),
                   Container(
                     width: 35,
                     height: 35,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color(0xff96A093), width: 1),
+                      border: Border.all(color: Color(0xff96A093), width: 1),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -154,16 +209,89 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(
+                height: 8,
+              ),
               Text(
-                widget.product.description!,
-                style: const TextStyle(
+                widget.product.description,
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Color(0xff646B62),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(
+                height: 8,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 26,
+                      child: CustomListViewSelectColorNewarrivals(
+                        hexColors: widget.product.images,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (quantity > 1) {
+                        setState(() {
+                          quantity--;
+                        });
+                      }
+                    },
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.primaryColor,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Icon(
+                        Icons.remove,
+                        size: 16,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    quantity.toString(),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        quantity++;
+                      });
+                    },
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Icon(Icons.add, color: Colors.white, size: 16),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 24,
+              ),
               Text(
                 "Frequently Bought Together",
                 style: TextStyle(
@@ -172,14 +300,16 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   color: AppColors.primaryColor,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: 16,
+              ),
               SizedBox(
                 height: 124,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
-                  physics: const BouncingScrollPhysics(),
+                  physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -194,7 +324,7 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                       Row(
                         children: [
                           Image.network(
-                            widget.product.image??'',
+                            "https://aymantaher.com/Furniture/image/coffe3.jpg",
                             width: 100,
                             height: 100,
                             errorBuilder: (context, error, stackTrace) =>
@@ -210,15 +340,15 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                             ),
                           ),
                           if (index != 10 - 1) ...[
-                            const SizedBox(width: 8),
-                            const Text(
+                            SizedBox(width: 8),
+                            Text(
                               "+",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                           ]
                         ],
                       ),
@@ -226,7 +356,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(
+                height: 8,
+              ),
               CustomButton(
                 title: "Buy 2 Items Together",
                 backgroundColor: Colors.white,
@@ -234,7 +366,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                 borderColor: AppColors.primaryColor,
                 onTap: () {},
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: 16,
+              ),
               Text(
                 "Product Ratings & Reviews",
                 style: TextStyle(
@@ -243,7 +377,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   color: AppColors.primaryColor,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: 16,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -251,7 +387,7 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           "4.5",
                           style: TextStyle(
                             fontSize: 35,
@@ -261,7 +397,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                         CustomRatingWidget(
                           rate: 1,
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(
+                          height: 8,
+                        ),
                         Text(
                           "Based on 22 rating",
                           style: TextStyle(
@@ -312,18 +450,22 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Shahd", // You might want to get this from reviews
-                      style: const TextStyle(
+                      "Shahd",
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(
+                      height: 4,
+                    ),
                     CustomRatingWidget(rate: (index + 1) * 2),
-                    const SizedBox(height: 4),
+                    SizedBox(
+                      height: 4,
+                    ),
                     Text(
-                      "good", // You might want to get this from reviews
-                      style: const TextStyle(
+                      "good",
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Color(0xff646B62),
@@ -333,7 +475,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(
+                height: 8,
+              ),
               GestureDetector(
                 onTap: () {},
                 child: Container(
@@ -361,7 +505,9 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(
+                height: 24,
+              ),
               Text(
                 "More from Brand",
                 style: TextStyle(
@@ -370,43 +516,58 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   color: AppColors.primaryColor,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: 16,
+              ),
               GridView.count(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 0.8,
-                physics: const NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: List.generate(
                   2,
                   (index) => ProductCardWithoutRating(
                     isFavorite: false,
                     onFavoritePressed: () {},
-                    imagePath: widget.product.image??'',
-                    name: widget.product.name!,
-                    price: widget.product.price!.toStringAsFixed(0),
+                    imagePath: index < widget.product.images.length
+                        ? widget.product.images[index].imageUrl
+                        : "https://aymantaher.com/Furniture/image/CHAIR_DESIGN_A_black.png", // Provide a fallback image URL
+                    name: widget.product.name,
+                    price: "200",
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: 16,
+              ),
               Row(
                 children: [
                   Text(
-                    "\$${widget.product.price!.toStringAsFixed(0)}",
-                    style: const TextStyle(
+                    "\$200",
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(
+                    width: 16,
+                  ),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        // Add to cart logic here
+                        cartItems.add({
+                          'title': widget.product.name,
+                          'image':
+                              "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                          'price': widget.product.price,
+                          'quantity': 1,
+                        });
+
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Added to cart')),
+                          SnackBar(content: Text('Added to cart')),
                         );
                       },
                       child: Container(
@@ -417,7 +578,7 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               "Add to cart",
                               style: TextStyle(
@@ -433,11 +594,26 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              SizedBox(
+                height: 24,
+              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget _placeholderImage() {
+  return Container(
+    width: 103,
+    height: 98,
+    color: Colors.grey.shade200,
+    child: const Icon(
+      Icons.image_not_supported,
+      size: 40,
+      color: Colors.grey,
+    ),
+  );
 }

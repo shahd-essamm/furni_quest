@@ -4,25 +4,25 @@ import 'package:json_annotation/json_annotation.dart';
 part 'category_product_model.g.dart';
 @JsonSerializable()
 class CategoryProductModel {
-  final int id;
-  final String name;
-  final double price;
-  final String style;
-  final String description;
+  final int? id;
+  final String? name;
+  final double? price;
+  final String? style;
+  final String? description;
   @JsonKey(name: 'item_id')
-  final int itemId;
+  final int? itemId;
   @JsonKey(name: 'color_palette')
-  final String colorPalette;
+  final String? colorPalette;
   @JsonKey(name: 'category_id')
-  final int categoryId;
+  final int? categoryId;
   @JsonKey(name: 'design_code')
-  final String designCode;
+  final String? designCode;
   @JsonKey(name: 'subcategory_id')
-  final int subcategoryId;
+  final int? subcategoryId;
   @JsonKey(name: 'apk_url')
   final String? apkUrl;
-  final String brand;
-  final List <ImageModel> images;
+  final String? brand;
+  final String? image;
 
   CategoryProductModel({
     required this.id,
@@ -37,7 +37,7 @@ class CategoryProductModel {
     required this.subcategoryId,
     this.apkUrl,
     required this.brand,
-    required this.images,
+    required this.image,
   });
 
   factory CategoryProductModel.fromJson(Map<String, dynamic> json) =>
@@ -46,19 +46,3 @@ class CategoryProductModel {
   Map<String, dynamic> toJson() => _$CategoryProductModelToJson(this);
 }
 
-@JsonSerializable()
-class ImageModel{
-  @JsonKey(name:'url')
-  final String image;
-  final String color;
-  @JsonKey(name:'color_hex')
-  final String colorHex;
-
-
-  factory ImageModel.fromJson(Map<String, dynamic> json) =>
-      _$ImageModelFromJson(json);
-
-  ImageModel({required this.image, required this.color, required this.colorHex});
-
-  Map<String, dynamic> toJson() => _$ImageModelToJson(this);
-}
