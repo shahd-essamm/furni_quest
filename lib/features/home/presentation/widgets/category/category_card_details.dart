@@ -49,8 +49,8 @@ class _CategoryCardDetailsState extends State<CategoryCardDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Category Details',
+        title:Text(
+          'Categories',
           style: TextStyle(fontSize: 20),
         ),
         backgroundColor: Colors.white,
@@ -155,6 +155,7 @@ class _CategoryCardDetailsState extends State<CategoryCardDetails> {
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
+                          color: Color(0xff515E4D)
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -165,7 +166,7 @@ class _CategoryCardDetailsState extends State<CategoryCardDetails> {
                           return Icon(
                             index < 4 ? Icons.star : Icons.star_border,
                             size: 16,
-                            color: Colors.orangeAccent,
+                            color: Color(0xffFBBC04),
                           );
                         }),
                       ),

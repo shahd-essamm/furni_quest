@@ -9,9 +9,10 @@ import 'package:furni_quest/features/products/presentation/views/widgets/custom_
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
 // Global cart list
-List<Map<String, dynamic>> cartItems = [];
+
 
 class NewArrivalsProducts extends StatefulWidget {
   final NewArrivalModel product;
@@ -559,9 +560,8 @@ class _NewArrivalsProductsState extends State<NewArrivalsProducts> {
                     child: GestureDetector(
                       onTap: () {
                         cartItems.add({
-                          'title': widget.product.name,
-                          'image':
-                              "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                          'name': widget.product.name,
+                          'image': widget.product.images[0].imageUrl,
                           'price': widget.product.price,
                           'quantity': 1,
                         });

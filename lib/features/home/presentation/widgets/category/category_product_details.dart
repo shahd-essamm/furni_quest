@@ -4,16 +4,18 @@ import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
 import 'package:furni_quest/features/home/data/models/category_product_model.dart';
+import 'package:furni_quest/features/home/presentation/widgets/new_arrivals/new_arrivals_products.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
+import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
 class CategoryProductDetails extends StatefulWidget {
   final CategoryProductModel product;
 
   const CategoryProductDetails({
-    super.key, 
+    super.key,
     required this.product,
   });
 
@@ -142,7 +144,8 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                     height: 35,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color(0xff96A093), width: 1),
+                      border:
+                          Border.all(color: const Color(0xff96A093), width: 1),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -178,52 +181,86 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount:
+                      widget.product.frequencyBoughtTogether?.length ?? 0,
                   physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomCheckBox(
-                        isChecked: isCheckedList[index],
-                        onChecked: (value) {
-                          setState(() {
-                            isCheckedList[index] = value;
-                          });
-                        },
-                      ),
-                      Row(
-                        children: [
-                          Image.network(
-                            widget.product.image??'',
-                            width: 100,
-                            height: 100,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Container(
+                  itemBuilder: (context, index) {
+                    // Debug prints
+                    print(
+                        'Frequency Bought Together Length: ${widget.product.frequencyBoughtTogether?.length}');
+                    print(
+                        'Image URL at index $index: ${widget.product.frequencyBoughtTogether?[index].image}');
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomCheckBox(
+                          isChecked: isCheckedList[index],
+                          onChecked: (value) {
+                            setState(() {
+                              isCheckedList[index] = value;
+                            });
+                          },
+                        ),
+                        Row(
+                          children: [
+                            Container(
                               width: 100,
                               height: 100,
-                              color: Colors.grey.shade200,
-                              child: const Icon(
-                                Icons.image_not_supported,
-                                size: 40,
-                                color: Colors.grey,
+                              child: Image.network(
+                                widget.product.frequencyBoughtTogether![index]
+                                        .image ??
+                                    '',
+                                fit: BoxFit.cover,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  print('Error loading image: $error');
+                                  return Container(
+                                    width: 100,
+                                    height: 100,
+                                    color: Colors.grey.shade200,
+                                    child: const Icon(
+                                      Icons.image_not_supported,
+                                      size: 40,
+                                      color: Colors.grey,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
-                          ),
-                          if (index != 10 - 1) ...[
-                            const SizedBox(width: 8),
-                            const Text(
-                              "+",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
+                            if (index !=
+                                widget.product.frequencyBoughtTogether!.length -
+                                    1) ...[
+                              const SizedBox(width: 8),
+                              const Text(
+                                "+",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                          ]
-                        ],
-                      ),
-                    ],
-                  ),
+                              const SizedBox(width: 8),
+                            ]
+                          ],
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 8),
@@ -383,7 +420,7 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                   (index) => ProductCardWithoutRating(
                     isFavorite: false,
                     onFavoritePressed: () {},
-                    imagePath: widget.product.image??'',
+                    imagePath: widget.product.image ?? '',
                     name: widget.product.name!,
                     price: widget.product.price!.toStringAsFixed(0),
                   ),
@@ -405,6 +442,13 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                     child: GestureDetector(
                       onTap: () {
                         // Add to cart logic here
+                        cartItems.add({
+                          'name': widget.product.name,
+                          'image': widget.product.image,
+                          'price': widget.product.price,
+                          'quantity': 1,
+                        });
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Added to cart')),
                         );

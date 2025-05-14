@@ -16,12 +16,12 @@ class MainViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return IndexedStack(
       index: currentViewIndex,
-      children: const [
-        HomeView(),
-        CategoriesView(),
-        SizedBox.shrink(),
+      children: [
+        const HomeView(),
+        const CategoriesView(),
+        const SizedBox.shrink(),
         CartView(),
-        SettingsView(),
+        const SettingsView(),
       ],
     );
   }

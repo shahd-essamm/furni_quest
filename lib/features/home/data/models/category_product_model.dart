@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'category_product_model.g.dart';
+
 @JsonSerializable()
 class CategoryProductModel {
   final int? id;
@@ -23,8 +23,10 @@ class CategoryProductModel {
   final String? apkUrl;
   final String? brand;
   final String? image;
+  final List<FrequencyBorughtTogertherModel>? frequencyBoughtTogether;
 
-  CategoryProductModel({
+  CategoryProductModel(
+    this.frequencyBoughtTogether, {
     required this.id,
     required this.name,
     required this.price,
@@ -46,3 +48,14 @@ class CategoryProductModel {
   Map<String, dynamic> toJson() => _$CategoryProductModelToJson(this);
 }
 
+@JsonSerializable()
+class FrequencyBorughtTogertherModel {
+  final String? image;
+
+  FrequencyBorughtTogertherModel({required this.image});
+
+  factory FrequencyBorughtTogertherModel.fromJson(Map<String, dynamic> json) =>
+      _$FrequencyBorughtTogertherModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FrequencyBorughtTogertherModelToJson(this);
+}

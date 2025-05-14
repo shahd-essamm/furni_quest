@@ -4,7 +4,8 @@ import 'package:furni_quest/features/products/presentation/views/widgets/product
 
 // Use the global cart list
 class CartView extends StatefulWidget {
-  const CartView({super.key});
+  CartView({super.key});
+  List<Map<String, dynamic>> cartItems = [];
 
   @override
   _CartViewState createState() => _CartViewState();

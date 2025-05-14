@@ -78,7 +78,7 @@ class _MainViewState extends State<MainView> {
                           Text(
                             "Visualize in Room",
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 11,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -125,7 +125,7 @@ class _MainViewState extends State<MainView> {
                             Text(
                               "Style Assistant",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
