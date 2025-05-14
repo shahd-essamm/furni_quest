@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:furni_quest/core/services/api_ocnstants.dart';
+import 'package:furni_quest/core/services/api_constans.dart';
 
 class ApiServices {
   final Dio dio;

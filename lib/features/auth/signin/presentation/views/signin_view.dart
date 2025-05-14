@@ -6,7 +6,7 @@ import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/features/auth/forgot_password.dart/presentation/views/forgot_password_view.dart';
 import 'package:furni_quest/features/auth/signin/presentation/cubits/auth_cubit.dart';
 import 'package:furni_quest/features/auth/signin/presentation/cubits/auth_state.dart';
-import 'package:furni_quest/features/home/presentation/views/main_view.dart';
+import 'package:furni_quest/features/home/presentation/screens/main_view.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});

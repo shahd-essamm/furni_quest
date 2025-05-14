@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:furni_quest/features/home/data/models/product_model.dart';
-import 'package:furni_quest/features/products/presentation/views/widgets/custom_products_gride_view.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_details_model.dart';
+import 'package:furni_quest/features/home/data/models/product_model.dart';import 'package:furni_quest/features/products/presentation/views/widgets/custom_products_gride_view.dart';
 
 class ProductsOfCategoryView extends StatefulWidget {
   const ProductsOfCategoryView({super.key, required this.products});
@@ -11,9 +11,14 @@ class ProductsOfCategoryView extends StatefulWidget {
 
   @override
   State<ProductsOfCategoryView> createState() => _ProductsOfCategoryViewState();
+  
 }
 
+
+
 class _ProductsOfCategoryViewState extends State<ProductsOfCategoryView> {
+  late List<SubCategoryDetails> allCategory;
+@override
   @override
   Widget build(BuildContext context) {
     return Scaffold(

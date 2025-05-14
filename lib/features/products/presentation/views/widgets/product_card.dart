@@ -92,7 +92,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     // السعر على اليمين
                     Text(
-                      product.price,
+                      product.price.toString(),
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,

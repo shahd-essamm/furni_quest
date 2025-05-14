@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furni_quest/features/home/data/models/product_model.dart';
+import 'package:furni_quest/features/home/bussniss_logic/cubits/category_cubit/category_cubit.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
@@ -13,6 +15,12 @@ class CustomProductsGridView extends StatefulWidget {
 }
 
 class _CustomProductsGridViewState extends State<CustomProductsGridView> {
+  late List<ProductModel> product;
+@override
+void initState() {
+  super.initState();
+  BlocProvider.of<CategoryCubit>(context).getAllSubCategory();
+}
   @override
   Widget build(BuildContext context) {
     return GridView.builder(

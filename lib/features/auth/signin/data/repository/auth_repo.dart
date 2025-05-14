@@ -1,4 +1,4 @@
-import 'package:furni_quest/core/services/api_ocnstants.dart';
+import 'package:furni_quest/core/services/api_constans.dart';
 import 'package:furni_quest/core/services/api_service.dart';
 import '../models/user_model.dart';
 
