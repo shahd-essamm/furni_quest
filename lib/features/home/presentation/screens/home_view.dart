@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:furni_quest/core/services/injection.dart';
-import 'package:furni_quest/features/home/bussniss_logic/cubits/category_cubit/category_cubit.dart';
 import 'package:furni_quest/features/home/data/models/sub_category_model.dart';
 import 'package:furni_quest/features/home/presentation/widgets/category/category_card_list_view.dart';
 import 'package:furni_quest/features/home/presentation/widgets/custom_widgets/custom_carousel_slider.dart';
