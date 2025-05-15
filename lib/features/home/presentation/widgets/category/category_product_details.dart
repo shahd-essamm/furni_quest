@@ -3,8 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
-import 'package:furni_quest/features/home/data/models/category_product_model.dart';
-import 'package:furni_quest/features/home/presentation/widgets/new_arrivals/new_arrivals_products.dart';
+import 'package:furni_quest/features/home/data/models/category_product_model/category_product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
@@ -27,12 +26,16 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
   late String imageSelected;
   int quantity = 1;
   bool isChecked = false;
-  List<bool> isCheckedList = List.generate(10, (_) => false);
+  late List<bool> isCheckedList;
+  // List<bool> isCheckedList = List.generate(10, (_) => false);
 
   @override
   void initState() {
     super.initState();
     imageSelected = widget.product.image!;
+
+    final count = widget.product.frequencyBoughtTogether?.length ?? 0;
+    isCheckedList = List.generate(count, (_) => false);
   }
 
   @override
@@ -185,80 +188,103 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                       widget.product.frequencyBoughtTogether?.length ?? 0,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
-                    // Debug prints
-                    print(
-                        'Frequency Bought Together Length: ${widget.product.frequencyBoughtTogether?.length}');
-                    print(
-                        'Image URL at index $index: ${widget.product.frequencyBoughtTogether?[index].image}');
+                    final frequentItem =
+                        widget.product.frequencyBoughtTogether?[index];
+                    final imageUrl = frequentItem?.image ?? '';
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomCheckBox(
-                          isChecked: isCheckedList[index],
-                          onChecked: (value) {
-                            setState(() {
-                              isCheckedList[index] = value;
-                            });
-                          },
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              child: Image.network(
-                                widget.product.frequencyBoughtTogether![index]
-                                        .image ??
-                                    '',
-                                fit: BoxFit.cover,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value:
-                                          loadingProgress.expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : null,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  print('Error loading image: $error');
-                                  return Container(
-                                    width: 100,
-                                    height: 100,
-                                    color: Colors.grey.shade200,
-                                    child: const Icon(
-                                      Icons.image_not_supported,
-                                      size: 40,
-                                      color: Colors.grey,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            if (index !=
-                                widget.product.frequencyBoughtTogether!.length -
-                                    1) ...[
-                              const SizedBox(width: 8),
-                              const Text(
-                                "+",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
+                    print(
+                        'Frequent item at index $index: ${frequentItem?.toJson()}');
+
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomCheckBox(
+                            isChecked: isCheckedList[index],
+                            onChecked: (value) {
+                              setState(() {
+                                isCheckedList[index] = value;
+                              });
+                            },
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border:
+                                      Border.all(color: Colors.grey.shade200),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: imageUrl.isEmpty
+                                      ? Container(
+                                          color: Colors.grey.shade200,
+                                          child: const Icon(
+                                            Icons.image_not_supported,
+                                            size: 40,
+                                            color: Colors.grey,
+                                          ),
+                                        )
+                                      : Image.network(
+                                          imageUrl,
+                                          fit: BoxFit.cover,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(
+                                                'Image load error at index $index: $error');
+                                            print('Image URL: $imageUrl');
+                                            return Container(
+                                              color: Colors.grey.shade200,
+                                              child: const Icon(
+                                                Icons.image_not_supported,
+                                                size: 40,
+                                                color: Colors.grey,
+                                              ),
+                                            );
+                                          },
+                                        ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                            ]
-                          ],
-                        ),
-                      ],
+                              if (index !=
+                                  (widget.product.frequencyBoughtTogether
+                                              ?.length ??
+                                          0) -
+                                      1) ...[
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "+",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                              ]
+                            ],
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

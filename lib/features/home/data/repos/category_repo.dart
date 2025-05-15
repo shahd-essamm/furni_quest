@@ -1,7 +1,7 @@
 import 'package:furni_quest/features/categoris/data/models/category_model.dart';
-import 'package:furni_quest/features/home/data/models/category_product_model.dart';
-import 'package:furni_quest/features/home/data/models/sub_category_details_model.dart';
-import 'package:furni_quest/features/home/data/models/sub_category_model.dart';
+import 'package:furni_quest/features/home/data/models/category_product_model/category_product_model.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_details_model/sub_category_details_model.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_model/sub_category_model.dart';
 import 'package:furni_quest/features/home/data/web/category_web_services.dart';
 
 class CategoryRepo {
@@ -23,12 +23,9 @@ class CategoryRepo {
         .toList();
   }
 
-  Future<List<CategoryModel>> getAllCategory() async {
-    var response = await categoryWebServcies.getAllCategory();
-    return response
-        .map((categoryModel) => CategoryModel.fromJson(categoryModel.toJson()))
-        .toList();
-  }
+Future<List<CategoryModel>> getAllCategory() async {
+  return await categoryWebServcies.getAllCategory(); // ✅
+}
 
   Future<List<SubCategoryModel>> getSubCategoryByCategoryId(
       int categoryId) async {
@@ -48,18 +45,15 @@ class CategoryRepo {
         .toList();
   }
 
-  Future<List<CategoryProductModel>> getSubCategoryProducts() async {
-    var response = await categoryWebServcies.getSubCategoryProducts();
-    return response
-        .map((categoryProductModel) =>
-            CategoryProductModel.fromJson(categoryProductModel.toJson()))
-        .toList();
-  }
 
- Future<List<CategoryProductModel>> getSubCategoryProductsById(int categoryId) async {
+//? NOTE: retrofit hadling the parsing - so that we don't need to parse it again
+Future<List<CategoryProductModel>> getSubCategoryProducts() async {
+  return await categoryWebServcies.getSubCategoryProducts(); // ✅ already parsed
+}
+
+Future<List<CategoryProductModel>> getSubCategoryProductsById(int categoryId) async {
   try {
-    final response = await categoryWebServcies.getSubCategoryProductsById(categoryId);
-    return response.map((product) => CategoryProductModel.fromJson(product.toJson())).toList();
+    return await categoryWebServcies.getSubCategoryProductsById(categoryId); // ✅ already parsed
   } catch (e) {
     throw Exception('Failed to load products: $e');
   }

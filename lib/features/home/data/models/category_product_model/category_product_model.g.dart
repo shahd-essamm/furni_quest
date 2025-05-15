@@ -9,9 +9,9 @@ part of 'category_product_model.dart';
 CategoryProductModel _$CategoryProductModelFromJson(
         Map<String, dynamic> json) =>
     CategoryProductModel(
-      (json['frequencyBoughtTogether'] as List<dynamic>?)
-          ?.map((e) => FrequencyBorughtTogertherModel.fromJson(
-              e as Map<String, dynamic>))
+      (json['frequency_brought_together'] as List<dynamic>?)
+          ?.map((e) =>
+              FrequencyBoughtTogetherModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
@@ -44,17 +44,17 @@ Map<String, dynamic> _$CategoryProductModelToJson(
       'apk_url': instance.apkUrl,
       'brand': instance.brand,
       'image': instance.image,
-      'frequencyBoughtTogether': instance.frequencyBoughtTogether,
+      'frequency_brought_together': instance.frequencyBoughtTogether,
     };
 
-FrequencyBorughtTogertherModel _$FrequencyBorughtTogertherModelFromJson(
+FrequencyBoughtTogetherModel _$FrequencyBoughtTogetherModelFromJson(
         Map<String, dynamic> json) =>
-    FrequencyBorughtTogertherModel(
+    FrequencyBoughtTogetherModel(
       image: json['image'] as String?,
     );
 
-Map<String, dynamic> _$FrequencyBorughtTogertherModelToJson(
-        FrequencyBorughtTogertherModel instance) =>
+Map<String, dynamic> _$FrequencyBoughtTogetherModelToJson(
+        FrequencyBoughtTogetherModel instance) =>
     <String, dynamic>{
       'image': instance.image,
     };

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_quest/features/home/data/models/sub_category_details_model.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_details_model/sub_category_details_model.dart';
 import 'package:furni_quest/features/home/data/models/product_model.dart';import 'package:furni_quest/features/products/presentation/views/widgets/custom_products_gride_view.dart';
 
 class ProductsOfCategoryView extends StatefulWidget {

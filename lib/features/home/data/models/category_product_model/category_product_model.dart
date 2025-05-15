@@ -23,7 +23,8 @@ class CategoryProductModel {
   final String? apkUrl;
   final String? brand;
   final String? image;
-  final List<FrequencyBorughtTogertherModel>? frequencyBoughtTogether;
+  @JsonKey(name: 'frequency_brought_together')
+  final List<FrequencyBoughtTogetherModel>? frequencyBoughtTogether;
 
   CategoryProductModel(
     this.frequencyBoughtTogether, {
@@ -49,13 +50,14 @@ class CategoryProductModel {
 }
 
 @JsonSerializable()
-class FrequencyBorughtTogertherModel {
+class FrequencyBoughtTogetherModel {
   final String? image;
 
-  FrequencyBorughtTogertherModel({required this.image});
+  FrequencyBoughtTogetherModel({required this.image});
 
-  factory FrequencyBorughtTogertherModel.fromJson(Map<String, dynamic> json) =>
-      _$FrequencyBorughtTogertherModelFromJson(json);
+  factory FrequencyBoughtTogetherModel.fromJson(Map<String, dynamic> json) =>
+      _$FrequencyBoughtTogetherModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FrequencyBorughtTogertherModelToJson(this);
+  Map<String, dynamic> toJson() => _$FrequencyBoughtTogetherModelToJson(this);
 }
+// flutter pub run build_runner build --delete-conflicting-outputs

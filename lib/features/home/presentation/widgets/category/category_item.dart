@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:furni_quest/features/home/data/models/sub_category_model.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_model/sub_category_model.dart';
 import 'package:furni_quest/features/home/presentation/widgets/category/category_card_details.dart';
 
 class CategoryItem extends StatefulWidget {

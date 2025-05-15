@@ -1,17 +1,15 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:furni_quest/features/home/presentation/screens/home_view.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
 // Use the global cart list
-class CartView extends StatefulWidget {
-  CartView({super.key});
-  List<Map<String, dynamic>> cartItems = [];
-
+class CartScreen extends StatefulWidget {
   @override
-  _CartViewState createState() => _CartViewState();
+  _CartScreenState createState() => _CartScreenState();
 }
 
-class _CartViewState extends State<CartView> {
+class _CartScreenState extends State<CartScreen> {
   int getTotalPrice() {
     int total = 0;
     for (var item in cartItems) {
@@ -37,8 +35,13 @@ class _CartViewState extends State<CartView> {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-
       body: cartItems.isEmpty ? _buildEmptyCart() : _buildCartWithItems(),
     );
   }
@@ -56,7 +59,8 @@ class _CartViewState extends State<CartView> {
             SizedBox(
               width: 178,
               height: 244,
-              child: Image.asset('assets/EmptyCart_image/EmptyCart.png'), //
+              child: Image.asset(
+                  'assets/EmptyCart_image/EmptyCart.png'), // استبدل بالصورة الخاصة بك
             ),
             SizedBox(height: 20),
             Text(
@@ -91,7 +95,7 @@ class _CartViewState extends State<CartView> {
                   ),
                 ),
                 onPressed: () {
-                  // انتقل إلى الصفحة المطلوبة عند الضغط على الزر
+// انتقل إلى الصفحة المطلوبة عند الضغط على الزر
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => HomeView()));
                 },
@@ -121,7 +125,6 @@ class _CartViewState extends State<CartView> {
             itemBuilder: (context, index) {
               final item = cartItems[index];
               return Dismissible(
-                //fun delete
                 key: Key(item['title']),
                 direction: DismissDirection.endToStart,
                 background: Container(
@@ -140,20 +143,33 @@ class _CartViewState extends State<CartView> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text("Remove from Cart?",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF2D352B))),
+                            Text(
+                              "Remove from Cart?",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF2D352B),
+                              ),
+                            ),
                             SizedBox(height: 10),
-                            Image.asset(item['image'], height: 50),
+                            Container(
+                              height: 50,
+                              child: Image.network(
+                                item['image'],
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Icon(
+                                  Icons.image_not_supported,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 10),
                             Text(item['title'],
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                     color: Color(0xFF232922))),
-                            Text("\$${item['price'].toStringAsFixed(2)}",
+                            Text("${item['price'].toStringAsFixed(2)}",
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
@@ -172,15 +188,15 @@ class _CartViewState extends State<CartView> {
                                 ElevatedButton(
                                   onPressed: () =>
                                       Navigator.of(context).pop(true),
+                                  child: Text("Yes, Remove"),
                                   style: ElevatedButton.styleFrom(
-                                    // primary: Color(0xFF657660),
-                                    // onPrimary: Colors.white,
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: Color(0xFF657660),
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                     minimumSize: Size(157, 44),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8)),
                                   ),
-                                  child: Text("Yes, Remove"),
                                 ),
                               ],
                             ),
@@ -207,15 +223,29 @@ class _CartViewState extends State<CartView> {
 
   Widget _buildCartItem(Map<String, dynamic> item) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 20.0, vertical: 16.0), // Adjusted padding
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
       child: Container(
         child: Column(
           children: [
             Row(
               children: [
-                Image.asset(item['image'],
-                    width: 80, height: 80, fit: BoxFit.cover),
+                Container(
+                  width: 80,
+                  height: 80,
+                  child: Image.network(
+                    item['image'],
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      width: 80,
+                      height: 80,
+                      color: Colors.grey.shade200,
+                      child: Icon(
+                        Icons.image_not_supported,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -233,7 +263,7 @@ class _CartViewState extends State<CartView> {
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF6E726C))),
-                      Text("\$${item['price'].toStringAsFixed(2)}",
+                      Text("${item['price'].toStringAsFixed(2)}",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
@@ -256,11 +286,10 @@ class _CartViewState extends State<CartView> {
     return Row(
       mainAxisAlignment:
           MainAxisAlignment.end, // Align the buttons to the right
-      children: [
-        // Adding the "minus" button (adjusted to center the icon)
+      children: [// Adding the "minus" button (adjusted to center the icon)
         Container(
-          width: 30,
-          height: 30,
+          width: 24,
+          height: 24,
           decoration: BoxDecoration(
             color: Color(0xFFE8EAE7), // Light gray color for "-"
             borderRadius: BorderRadius.circular(4),
@@ -268,7 +297,7 @@ class _CartViewState extends State<CartView> {
           child: Center(
             // Centering the minus icon
             child: IconButton(
-              icon: Icon(Icons.remove, color: Colors.black, size: 17),
+              icon: Icon(Icons.remove, color: Colors.black, size: 16),
               onPressed: () {
                 setState(() {
                   if (item['quantity'] > 1) {
@@ -283,23 +312,26 @@ class _CartViewState extends State<CartView> {
         ),
         SizedBox(width: 8), // Space between the buttons
         Text("${item['quantity']}",
-            style: TextStyle(fontSize: 18, color: Color(0xFF3A3E39))),
+            style: TextStyle(fontSize: 16, color: Color(0xFF3A3E39))),
         SizedBox(width: 8), // Space between the buttons
-        // Adding the "plus" button (adjusted to center the icon)
+// Adding the "plus" button (adjusted to center the icon)
         Container(
-          width: 30,
-          height: 30,
+          width: 24,
+          height: 24,
           decoration: BoxDecoration(
             color: Color(0xFF515E4D), // Green color for "+"
             borderRadius: BorderRadius.circular(4),
           ),
-          child: IconButton(
-            icon: Icon(Icons.add, color: Colors.white, size: 17),
-            onPressed: () {
-              setState(() {
-                item['quantity']++;
-              });
-            },
+          child: Center(
+            // Centering the plus icon
+            child: IconButton(
+              icon: Icon(Icons.add, color: Colors.white, size: 16),
+              onPressed: () {
+                setState(() {
+                  item['quantity']++;
+                });
+              },
+            ),
           ),
         ),
       ],
@@ -329,16 +361,12 @@ class _CartViewState extends State<CartView> {
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => CheckoutView(
-              //               totalCost: totalCost,
-              //             )));
+              //TODO : Handle checkout action
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => Chec()));
               // Handle checkout logic
             },
             style: ElevatedButton.styleFrom(
-              // primary: Color(0xFF657660),
+              backgroundColor: Color(0xFF657660),
               padding: EdgeInsets.symmetric(vertical: 14),
               minimumSize: Size(double.infinity, 50),
               shape: RoundedRectangleBorder(
@@ -363,7 +391,7 @@ class _CartViewState extends State<CartView> {
                   fontSize: 16,
                   fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
                   color: Color(0xFF3A4537))),
-          Text("\$$value",
+          Text("${value}",
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: isBold ? FontWeight.bold : FontWeight.normal,

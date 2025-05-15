@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:furni_quest/features/categoris/data/models/category_model.dart';
-import 'package:furni_quest/features/home/data/models/category_product_model.dart';
-import 'package:furni_quest/features/home/data/models/sub_category_details_model.dart';
-import 'package:furni_quest/features/home/data/models/sub_category_model.dart';
+import 'package:furni_quest/features/home/data/models/category_product_model/category_product_model.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_details_model/sub_category_details_model.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_model/sub_category_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'category_web_services.g.dart';

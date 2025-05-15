@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:furni_quest/features/home/data/models/category_product_model.dart';
-import 'package:furni_quest/features/home/data/models/sub_category_model.dart';
+import 'package:furni_quest/features/home/data/models/category_product_model/category_product_model.dart';
+import 'package:furni_quest/features/home/data/models/sub_category_model/sub_category_model.dart';
 import 'package:furni_quest/features/home/data/repos/category_repo.dart';
 
 part 'category_state.dart';
