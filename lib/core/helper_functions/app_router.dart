@@ -11,7 +11,10 @@ import 'package:furni_quest/features/auth/signup/presentation/views/signup_buss_
 import 'package:furni_quest/features/auth/signup/presentation/views/signup_view.dart';
 import 'package:furni_quest/features/categoris/business_logic/cubit/category_page_cubit.dart';
 import 'package:furni_quest/features/categoris/presentation/screens/categories_view.dart';
+import 'package:furni_quest/features/discovery/presentation/views/recommendation_view.dart';
 import 'package:furni_quest/features/home/bussniss_logic/cubits/category_cubit/category_cubit.dart';
+import 'package:furni_quest/features/home/bussniss_logic/cubits/product_cubit/product_cubit.dart';
+import 'package:furni_quest/features/home/bussniss_logic/cubits/wishlist_cubit/wishlist_cubit.dart';
 import 'package:furni_quest/features/home/data/repos/category_repo.dart';
 import 'package:furni_quest/features/home/data/web/category_web_services.dart';
 import 'package:furni_quest/features/home/presentation/screens/home_view.dart';
@@ -54,10 +57,27 @@ class AppRouter {
 //-----------------------------------------------------------------------------------//
       case HomeView.routeName:
         return MaterialPageRoute(
-            builder: (context) => BlocProvider(
-                  create: (context) => CategoryCubit(categoryRepo),
-                  child: const HomeView(),
-                ));
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => CategoryCubit(categoryRepo),
+              ),
+              BlocProvider(
+                create: (context) => getIt<WishlistCubit>(),
+              ),
+            ],
+            child: const HomeView(),
+          ),
+        );
+//-----------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------//
+      case WishListView.routeName:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => WishlistCubit(),
+            child: const WishListView(),
+          ),
+        );
 //-----------------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------------//
       case CategoriesView.routeName:
@@ -69,10 +89,6 @@ class AppRouter {
             );
           },
         );
-//-----------------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------------//
-      case WishListView.routeName:
-        return MaterialPageRoute(builder: (context) => const WishListView());
 //-----------------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------------//
       case CameraView.routeName:
@@ -131,6 +147,24 @@ class AppRouter {
 //-----------------------------------------------------------------------------------//
       case SearchView.routeName:
         return MaterialPageRoute(builder: (context) => const SearchView());
+//-----------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------//
+      case RecommendationView.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => getIt<ProductCubit>(),
+                ),
+                BlocProvider(
+                  create: (context) => getIt<WishlistCubit>(),
+                ),
+              ],
+              child: const RecommendationView(),
+            );
+          },
+        );
 //-----------------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------------//
 

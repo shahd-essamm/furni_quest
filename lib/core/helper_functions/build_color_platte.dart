@@ -27,7 +27,7 @@ class ColorPaletteRow extends StatelessWidget {
             colorOptions.length,
             (index) => Container(
               height: 44,
-              width: 51,
+              width: 48,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topRight:

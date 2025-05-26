@@ -164,6 +164,7 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         const SizedBox(height: 6),
         TextFormField(
+          keyboardType: TextInputType.phone,
           controller: phoneController,
           onChanged: (_) => setState(() {}),
           style: TextStyle(
@@ -210,6 +211,7 @@ class _ProfileViewState extends State<ProfileView> {
               fontSize: 14,
               color: hintColor,
             ),
+            
             suffixIcon: Icon(Icons.edit, size: 24, color: iconColor),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 8, vertical: 10),

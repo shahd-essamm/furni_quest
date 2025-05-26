@@ -26,6 +26,9 @@ CategoryProductModel _$CategoryProductModelFromJson(
       apkUrl: json['apk_url'] as String?,
       brand: json['brand'] as String?,
       image: json['image'] as String?,
+      moreFromBrand: (json['more_from_brand'] as List<dynamic>?)
+          ?.map((e) => MorefromBrandModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$CategoryProductModelToJson(
@@ -45,6 +48,7 @@ Map<String, dynamic> _$CategoryProductModelToJson(
       'brand': instance.brand,
       'image': instance.image,
       'frequency_brought_together': instance.frequencyBoughtTogether,
+      'more_from_brand': instance.moreFromBrand,
     };
 
 FrequencyBoughtTogetherModel _$FrequencyBoughtTogetherModelFromJson(
@@ -57,4 +61,18 @@ Map<String, dynamic> _$FrequencyBoughtTogetherModelToJson(
         FrequencyBoughtTogetherModel instance) =>
     <String, dynamic>{
       'image': instance.image,
+    };
+
+MorefromBrandModel _$MorefromBrandModelFromJson(Map<String, dynamic> json) =>
+    MorefromBrandModel(
+      image: json['image'] as String?,
+      name: json['name'] as String?,
+      price: (json['price'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$MorefromBrandModelToJson(MorefromBrandModel instance) =>
+    <String, dynamic>{
+      'image': instance.image,
+      'name': instance.name,
+      'price': instance.price,
     };

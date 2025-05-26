@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furni_quest/core/services/injection.dart';
 import 'package:furni_quest/features/discovery/presentation/views/recommendation_view.dart';
+import 'package:furni_quest/features/home/bussniss_logic/cubits/category_cubit/category_cubit.dart';
+import 'package:furni_quest/features/home/data/repos/category_repo.dart';
 import 'package:furni_quest/features/home/presentation/widgets/custom_widgets/custom_bottom_navigation_bar.dart';
 import 'package:furni_quest/features/home/presentation/widgets/custom_widgets/main_view_body.dart';
 
@@ -15,20 +19,25 @@ class _MainViewState extends State<MainView> {
   int currentViewIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavigationBar(
-        onItemTapped: (index) {
-          if (index == 2) {
-            showDialogAiOrAr(context);
-          } else {
-            setState(() {
-              currentViewIndex = index;
-            });
-          }
-        },
-      ),
-      body: SafeArea(
-        child: MainViewBody(currentViewIndex: currentViewIndex),
+    return BlocProvider(
+      create: (context) => CategoryCubit(
+        getIt<CategoryRepo>(),  
+      )..getAllSubCategory(),
+      child: Scaffold(
+        bottomNavigationBar: CustomBottomNavigationBar(
+          onItemTapped: (index) {
+            if (index == 2) {
+              showDialogAiOrAr(context);
+            } else {
+              setState(() {
+                currentViewIndex = index;
+              });
+            }
+          },
+        ),
+        body: SafeArea(
+          child: MainViewBody(currentViewIndex: currentViewIndex),
+        ),
       ),
     );
   }
@@ -96,8 +105,13 @@ class _MainViewState extends State<MainView> {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => RecommendationView(),
+                        MaterialPageRoute( 
+                          builder: (context) {
+                            return BlocProvider(
+                              create: (context) => getIt<CategoryCubit>(),
+                              child: const RecommendationView(),
+                            );
+                          },
                         ),
                       );
                     },

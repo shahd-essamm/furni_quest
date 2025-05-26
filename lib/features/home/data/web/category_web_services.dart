@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:furni_quest/features/categoris/data/models/category_model.dart';
 import 'package:furni_quest/features/home/data/models/category_product_model/category_product_model.dart';
+import 'package:furni_quest/features/home/data/models/search_model/search_model.dart';
 import 'package:furni_quest/features/home/data/models/sub_category_details_model/sub_category_details_model.dart';
 import 'package:furni_quest/features/home/data/models/sub_category_model/sub_category_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -38,5 +39,10 @@ abstract class CategoryWebServices {
   @GET('product/productBySub.php')
   Future<CategoryProductModel> getProductById(
     @Query('id') int categoryId,
+  );
+
+  @POST('product/filter2.php')
+  Future<List<SearchModel>> searchProduct(
+    @Body() SearchModel searchModel,
   );
 }

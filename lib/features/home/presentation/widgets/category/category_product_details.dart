@@ -3,13 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
+import 'package:furni_quest/features/cart/presentation/views/cart_view.dart';
 import 'package:furni_quest/features/home/data/models/category_product_model/category_product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
-import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
-
+// Global cart list
+// List<Map<String, dynamic>> cartItems = [];
 class CategoryProductDetails extends StatefulWidget {
   final CategoryProductModel product;
 
@@ -27,19 +28,19 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
   int quantity = 1;
   bool isChecked = false;
   late List<bool> isCheckedList;
-  // List<bool> isCheckedList = List.generate(10, (_) => false);
+  
 
   @override
   void initState() {
     super.initState();
     imageSelected = widget.product.image!;
-
     final count = widget.product.frequencyBoughtTogether?.length ?? 0;
     isCheckedList = List.generate(count, (_) => false);
   }
 
   @override
   Widget build(BuildContext context) {
+    final moreBrand = widget.product.moreFromBrand ?? [];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -191,10 +192,6 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                     final frequentItem =
                         widget.product.frequencyBoughtTogether?[index];
                     final imageUrl = frequentItem?.image ?? '';
-
-                    print(
-                        'Frequent item at index $index: ${frequentItem?.toJson()}');
-
                     return Padding(
                       padding: const EdgeInsets.only(right: 16.0),
                       child: Column(
@@ -438,17 +435,17 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 0.8,
+                childAspectRatio: 0.74,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: List.generate(
-                  2,
+                  moreBrand.length,
                   (index) => ProductCardWithoutRating(
                     isFavorite: false,
                     onFavoritePressed: () {},
-                    imagePath: widget.product.image ?? '',
-                    name: widget.product.name!,
-                    price: widget.product.price!.toStringAsFixed(0),
+                    imagePath: moreBrand[index].image ?? '',
+                    name: moreBrand[index].name??'', // Or use a placeholder like 'Product'
+                    price: "\$${moreBrand[index].price??0.toStringAsFixed(0)}",
                   ),
                 ),
               ),
@@ -469,8 +466,8 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                       onTap: () {
                         // Add to cart logic here
                         cartItems.add({
-                          'name': widget.product.name,
-                          'image': widget.product.image,
+                          'title': widget.product.name,
+                          'image': imageSelected,
                           'price': widget.product.price,
                           'quantity': 1,
                         });

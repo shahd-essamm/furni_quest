@@ -12,6 +12,8 @@ class NewArrivalModel {
   final String? apkUrl;
   final String brand;
   final List<NewArrivalImages> images;
+  final List<FrequencyBoughtTogether>? frequencyBoughtTogether;
+  final List<MoreFromBrandModel>? moreFromBrand;
 
   NewArrivalModel({
     required this.id,
@@ -27,6 +29,8 @@ class NewArrivalModel {
     required this.apkUrl,
     required this.brand,
     required this.images,
+    required this.frequencyBoughtTogether,
+    required this.moreFromBrand,
   });
 
   factory NewArrivalModel.fromJson(Map<String, dynamic> json) {
@@ -47,6 +51,15 @@ class NewArrivalModel {
           [],
       apkUrl: '',
       brand: '',
+      frequencyBoughtTogether:
+          (json['frequency_brought_together'] as List<dynamic>?)
+                  ?.map((x) => FrequencyBoughtTogether.fromJson(x))
+                  .toList() ??
+              [],
+      moreFromBrand: (json['more_from_brand'] as List<dynamic>?)
+              ?.map((x) => MoreFromBrandModel.fromJson(x))
+              .toList() ??
+          [],
     );
   }
 }
@@ -64,10 +77,35 @@ class NewArrivalImages {
   });
   factory NewArrivalImages.fromJson(Map<String, dynamic> json) {
     return NewArrivalImages(
-      id: json['id']??'',
-      imageUrl: json['image_url']??'',
-      color: json['color']??'',
-      colorHex: json['color_hex']??'',
+      id: json['id'],
+      imageUrl: json['image_url'],
+      color: json['color'],
+      colorHex: json['color_hex'],
+    );
+  }
+}
+
+class FrequencyBoughtTogether {
+  final String? image;
+  FrequencyBoughtTogether({required this.image});
+  factory FrequencyBoughtTogether.fromJson(Map<String, dynamic> json) {
+    return FrequencyBoughtTogether(
+      image: json['image_url'] ?? '',
+    );
+  }
+}
+
+class MoreFromBrandModel {
+  final String? image;
+  final String? name;
+  final int? price;
+  MoreFromBrandModel(
+      {required this.image, required this.name, required this.price});
+  factory MoreFromBrandModel.fromJson(Map<String, dynamic> json) {
+    return MoreFromBrandModel(
+      image: json['image_url'] ?? '',
+      name: json['name'] ?? '',
+      price: json['price'] ?? '',
     );
   }
 }

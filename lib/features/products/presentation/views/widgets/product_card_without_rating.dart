@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductCardWithoutRating extends StatelessWidget {
   final String name;
@@ -19,95 +20,133 @@ class ProductCardWithoutRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 157,
-      height: 176.32,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            spreadRadius: 2,
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        elevation: 4,
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          // أيقونة القلب في أعلى اليمين
-          Positioned(
-            top: 8,
-            right: 8,
-            child: GestureDetector(
-              onTap: onFavoritePressed,
-              child: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? Colors.red : Colors.grey,
-              ),
-            ),
-          ),
-
-          // محتوى الكارد
-          Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // يجعل العناصر تبدأ من اليسار
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: SizedBox(
-                  height: 150,
-                  child: Image.network(
-                    imagePath,
-                    width: 120,
-                    height: 120,
-                    fit: BoxFit.contain,
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    child: AspectRatio(
+                      aspectRatio: 1.4,
+                      child: imagePath.isNotEmpty
+                          ? Image.network(
+                              imagePath,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  _buildImagePlaceholder(),
+                              loadingBuilder: (context, child, loadingProgress) =>
+                                  loadingProgress == null
+                                      ? child
+                                      : Center(
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey.shade300,
+                                            highlightColor: Colors.grey.shade100,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                            )
+                          : _buildImagePlaceholder(),
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(height: 0),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Heebo',
-                    color: Color(0xFF515E4D),
+                  Positioned(
+                    right: 1,
+                    top: 3,
+                    child: IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.grey,
+                      ),
+                      onPressed: () {
+                      },
+                    ),
                   ),
-                ),
+                ],
               ),
-              SizedBox(height: 0),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Size: 3ft / 2ft",
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF6E726C),
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff515E4D),
+                            fontFamily: 'Heebo',
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('size 2ft / 3ft',
+                              style: const TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xff515E4D)
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              price,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    // السعر على اليمين
-                    Text(
-                      price,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Heebo',
-                        color: Color(0xFF232922),
-                      ),
-                    ),
+                    
                   ],
                 ),
               ),
             ],
           ),
-        ],
+        ),
+    );
+    
+    
+    
+  }
+}
+
+  Widget _buildImagePlaceholder() {
+    return Container(
+      color: Colors.grey[200],
+      child: const Center(
+        child: Icon(
+          Icons.image_not_supported,
+          color: Colors.grey,
+          size: 40,
+        ),
       ),
     );
   }
-}

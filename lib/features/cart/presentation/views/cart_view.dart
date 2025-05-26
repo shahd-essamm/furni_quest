@@ -1,10 +1,15 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:furni_quest/features/cart/presentation/views/widgets/checkout_view.dart';
 import 'package:furni_quest/features/home/presentation/screens/home_view.dart';
-import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
+import 'package:furni_quest/features/home/presentation/screens/main_view.dart';
+
+List<Map<String, dynamic>> cartItems = [];
+
 
 // Use the global cart list
 class CartScreen extends StatefulWidget {
+
+  const CartScreen({super.key});
   @override
   _CartScreenState createState() => _CartScreenState();
 }
@@ -23,22 +28,23 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: Colors.white, // Background color set to white
       appBar: AppBar(
-        title: Center(
-          // Title centered
-          child: Text(
-            "My Cart",
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF3A3E39)),
-          ),
+        title: Text(
+          "Cart",
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF3A3E39)),
         ),
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MainView())); // Navigate to HomeView
           },
         ),
       ),
@@ -284,20 +290,18 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _buildQuantityControls(Map<String, dynamic> item) {
     return Row(
-      mainAxisAlignment:
-          MainAxisAlignment.end, // Align the buttons to the right
-      children: [// Adding the "minus" button (adjusted to center the icon)
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
         Container(
-          width: 24,
-          height: 24,
+          width: 30,
+          height: 30,
           decoration: BoxDecoration(
-            color: Color(0xFFE8EAE7), // Light gray color for "-"
+            color: Color(0xFFE8EAE7),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Center(
-            // Centering the minus icon
             child: IconButton(
-              icon: Icon(Icons.remove, color: Colors.black, size: 16),
+              icon: Icon(Icons.remove, color: Colors.black, size: 14),
               onPressed: () {
                 setState(() {
                   if (item['quantity'] > 1) {
@@ -311,13 +315,17 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
         SizedBox(width: 8), // Space between the buttons
-        Text("${item['quantity']}",
-            style: TextStyle(fontSize: 16, color: Color(0xFF3A3E39))),
-        SizedBox(width: 8), // Space between the buttons
-// Adding the "plus" button (adjusted to center the icon)
+        Text(
+          "${item['quantity']}",
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xFF3A3E39),
+          ),
+        ),
+        SizedBox(width: 8),
         Container(
-          width: 24,
-          height: 24,
+          width: 30,
+          height: 30,
           decoration: BoxDecoration(
             color: Color(0xFF515E4D), // Green color for "+"
             borderRadius: BorderRadius.circular(4),
@@ -361,8 +369,13 @@ class _CartScreenState extends State<CartScreen> {
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {
-              //TODO : Handle checkout action
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => Chec()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CheckoutView(
+                            totalCost: totalCost,
+                            cartItems: cartItems,
+                          )));
               // Handle checkout logic
             },
             style: ElevatedButton.styleFrom(
@@ -386,16 +399,22 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                  color: Color(0xFF3A4537))),
-          Text("${value}",
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                  color: Color(0xFF2D352B))),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              color: Color(0xFF3A4537),
+            ),
+          ),
+          Text(
+            "${value}",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              color: Color(0xFF2D352B),
+            ),
+          ),
         ],
       ),
     );

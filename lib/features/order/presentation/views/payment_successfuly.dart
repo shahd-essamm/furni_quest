@@ -90,8 +90,12 @@ class PaymentSuccessScreen extends StatelessWidget {
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => YourReceiptView()));
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => YourReceiptView(),
+              //   ),
+              // );
             },
             child: Text(
               'View E-Receipt',

@@ -60,7 +60,6 @@ Future<List<CategoryProductModel>> getSubCategoryProductsById(int categoryId) as
 }
 
   Future<CategoryProductModel> getProductById(int productId) async {
-    var response = await categoryWebServcies.getProductById(productId);
-    return response;
+    return await categoryWebServcies.getProductById(productId);
   }
 }

@@ -53,8 +53,8 @@ class ProductCard extends StatelessWidget {
               Center(
                 child: SizedBox(
                   height: 150,
-                  child: Image.asset(
-                    "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                  child: Image.network(
+                    product.images[0].imageUrl,
                     width: 120,
                     height: 120,
                     fit: BoxFit.contain,

@@ -1,29 +1,10 @@
-// {
-//         "id": 21,
-//         "name": "Bed Set 2",
-//         "price": 1550,
-//         "style": "Modern",
-//         "description": "Comfortable modern bed set",
-//         "item_id": 8,
-//         "color_palette": "[\"#C3B4AE\", \"#AFA3A2\", \"#8C7B83\", \"#6C545E\", \"#503D47\", \"#3A2E30\"]",
-//         "category_id": 2,
-//         "category": "Bedroom",
-//         "subcategory_id": 1,
-//         "subcategory": "Beds",
-//         "design_code": "BED002",
-//         "apk_url": null,
-//         "brand": "JYSK",
-//         "image": "https://aymantaher.com/Furniture/image/bed2.jpg"
-//     },
-
-
 class ProductModel {
   final int id;
   final String name;
-  final int price; 
+  final int price;
   final String style;
   final String description;
-  final int itemId; 
+  final int itemId;
   final String colorPalette;
   final int categoryId;
   final String categoryName;
@@ -31,6 +12,8 @@ class ProductModel {
   final int subcategoryId;
   final String subcategoryName;
   final List<ImageModel> images;
+  final List<FrequencyBoughtTogether>? frequencyBoughtTogether;
+  final List<MoreFromBrandModel>? moreFromBrand;
 
   ProductModel({
     required this.id,
@@ -46,6 +29,8 @@ class ProductModel {
     required this.subcategoryId,
     required this.subcategoryName,
     required this.images,
+    required this.frequencyBoughtTogether,
+    required this.moreFromBrand,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -64,6 +49,15 @@ class ProductModel {
       subcategoryName: json['subcategory_name'] ?? '',
       images: (json['images'] as List<dynamic>?)
               ?.map((x) => ImageModel.fromJson(x))
+              .toList() ??
+          [],
+      frequencyBoughtTogether:
+          (json['frequently_bought_together'] as List<dynamic>?)
+                  ?.map((x) => FrequencyBoughtTogether.fromJson(x))
+                  .toList() ??
+              [],
+      moreFromBrand: (json['more_from_brand'] as List<dynamic>?)
+              ?.map((x) => MoreFromBrandModel.fromJson(x))
               .toList() ??
           [],
     );
@@ -86,6 +80,33 @@ class ImageModel {
       imageUrl: json['image_url'],
       color: json['color'],
       colorHex: json['color_hex'],
+    );
+  }
+}
+
+class FrequencyBoughtTogether {
+  final String? image;
+  FrequencyBoughtTogether({required this.image});
+  factory FrequencyBoughtTogether.fromJson(Map<String, dynamic> json) {
+    return FrequencyBoughtTogether(
+      image: json['image_url'] ?? '',
+    );
+  }
+}
+
+class MoreFromBrandModel {
+  final String? image;
+  final String? name;
+  final int? price;
+
+  MoreFromBrandModel(
+      {required this.image, required this.name, required this.price});
+
+  factory MoreFromBrandModel.fromJson(Map<String, dynamic> json) {
+    return MoreFromBrandModel(
+      image: json['image_url']??'',
+      name: json['name']??'',
+      price: json['price']??'',
     );
   }
 }

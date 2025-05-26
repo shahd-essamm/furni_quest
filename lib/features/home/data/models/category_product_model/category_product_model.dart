@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category_product_model.g.dart';
@@ -25,6 +26,8 @@ class CategoryProductModel {
   final String? image;
   @JsonKey(name: 'frequency_brought_together')
   final List<FrequencyBoughtTogetherModel>? frequencyBoughtTogether;
+  @JsonKey(name: "more_from_brand")
+  final List<MorefromBrandModel>? moreFromBrand;
 
   CategoryProductModel(
     this.frequencyBoughtTogether, {
@@ -41,6 +44,7 @@ class CategoryProductModel {
     this.apkUrl,
     required this.brand,
     required this.image,
+    this.moreFromBrand,
   });
 
   factory CategoryProductModel.fromJson(Map<String, dynamic> json) =>
@@ -59,5 +63,22 @@ class FrequencyBoughtTogetherModel {
       _$FrequencyBoughtTogetherModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$FrequencyBoughtTogetherModelToJson(this);
+}
+
+@JsonSerializable()
+class MorefromBrandModel {
+  String? image;
+  String? name;
+  int? price;
+  MorefromBrandModel({
+    required this.image,
+    required this.name,
+    required this.price,
+  });
+  factory MorefromBrandModel.fromJson(Map<String, dynamic> json) =>
+      _$MorefromBrandModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MorefromBrandModelToJson(this);
+
 }
 // flutter pub run build_runner build --delete-conflicting-outputs

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
 import 'package:furni_quest/core/widgets/custom_button.dart';
 import 'package:furni_quest/core/widgets/custom_divider_widget.dart';
+import 'package:furni_quest/features/cart/presentation/views/cart_view.dart';
 import 'package:furni_quest/features/home/data/models/product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_check_box.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_list_view_selected_color.dart';
@@ -11,7 +12,7 @@ import 'package:furni_quest/features/products/presentation/views/widgets/custom_
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
 
 // Global cart list
-List<Map<String, dynamic>> cartItems = [];
+// List<Map<String, dynamic>> cartItems = [];
 
 class ProductDetailsView extends StatefulWidget {
   final ProductModel product;
@@ -29,16 +30,20 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   late String imageSelected;
   int quantity = 1;
   bool isChecked = false;
-  List<bool> isCheckedList = List.generate(10, (_) => false);
+  late List<bool> isCheckedList;
+  // List<bool> isCheckedList = List.generate(10, (_) => false);
 
   @override
   void initState() {
     super.initState();
     imageSelected = widget.product.images[0].imageUrl;
+    final count = widget.product.frequencyBoughtTogether?.length ?? 0;
+    isCheckedList = List.generate(count, (_) => false);
   }
 
   @override
   Widget build(BuildContext context) {
+    final moreBrand = widget.product.moreFromBrand ?? [];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -317,52 +322,106 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomCheckBox(
-                        isChecked: isCheckedList[index],
-                        onChecked: (value) {
-                          setState(() {
-                            isCheckedList[index] = value;
-                          });
-                        },
-                      ),
-                      Row(
+                  itemCount:
+                      widget.product.frequencyBoughtTogether?.length ?? 0,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final frequentItem =
+                        widget.product.frequencyBoughtTogether?[index];
+                    final imageUrl = frequentItem?.image ?? '';
+
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.network(
-                            "https://aymantaher.com/Furniture/image/coffe3.jpg",
-                            width: 100,
-                            height: 100,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Container(
-                              width: 100,
-                              height: 100,
-                              color: Colors.grey.shade200,
-                              child: const Icon(
-                                Icons.image_not_supported,
-                                size: 40,
-                                color: Colors.grey,
-                              ),
-                            ),
+                          CustomCheckBox(
+                            isChecked: isCheckedList[index],
+                            onChecked: (value) {
+                              setState(() {
+                                isCheckedList[index] = value;
+                              });
+                            },
                           ),
-                          if (index != 10 - 1) ...[
-                            SizedBox(width: 8),
-                            Text(
-                              "+",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
+                          Row(
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border:
+                                      Border.all(color: Colors.grey.shade200),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: imageUrl.isEmpty
+                                      ? Container(
+                                          color: Colors.grey.shade200,
+                                          child: const Icon(
+                                            Icons.image_not_supported,
+                                            size: 40,
+                                            color: Colors.grey,
+                                          ),
+                                        )
+                                      : Image.network(
+                                          imageUrl,
+                                          fit: BoxFit.cover,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(
+                                                'Image load error at index $index: $error');
+                                            print('Image URL: $imageUrl');
+                                            return Container(
+                                              color: Colors.grey.shade200,
+                                              child: const Icon(
+                                                Icons.image_not_supported,
+                                                size: 40,
+                                                color: Colors.grey,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 8),
-                          ]
+                              if (index !=
+                                  (widget.product.frequencyBoughtTogether
+                                              ?.length ??
+                                          0) -
+                                      1) ...[
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "+",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                              ]
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
               SizedBox(
@@ -513,7 +572,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ),
                   ),
                 ),
-              ),             
+              ),
               SizedBox(
                 height: 24,
               ),
@@ -528,22 +587,21 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               SizedBox(
                 height: 16,
               ),
-              GridView.count(
+               GridView.count(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 0.8,
-                physics: NeverScrollableScrollPhysics(),
+                childAspectRatio: 0.74,
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: List.generate(
-                  2,
+                  moreBrand.length,
                   (index) => ProductCardWithoutRating(
                     isFavorite: false,
                     onFavoritePressed: () {},
-                    imagePath:
-                        widget.product.images[index].imageUrl,
-                    name: widget.product.name,
-                    price: "200",
+                    imagePath: moreBrand[index].image ?? '',
+                    name: moreBrand[index].name??'', // Or use a placeholder like 'Product'
+                    price: "\$${moreBrand[index].price??0.toStringAsFixed(0)}",
                   ),
                 ),
               ),
@@ -553,7 +611,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               Row(
                 children: [
                   Text(
-                    "\$200",
+                    "\$${widget.product.price.toString()}",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
@@ -568,8 +626,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       onTap: () {
                         cartItems.add({
                           'title': widget.product.name,
-                          'image':
-                              "https://aymantaher.com/Furniture/image/coffe 3.jpg",
+                          'image':imageSelected,
                           'price': widget.product.price,
                           'quantity': 1,
                         });

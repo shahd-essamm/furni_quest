@@ -6,6 +6,7 @@ import 'package:furni_quest/features/auth/signin/presentation/cubits/auth_cubit.
 import 'package:furni_quest/features/categoris/business_logic/cubit/category_page_cubit.dart';
 import 'package:furni_quest/features/home/bussniss_logic/cubits/new_arrival_cubit/new_arrival_cubit.dart';
 import 'package:furni_quest/features/home/bussniss_logic/cubits/product_cubit/product_cubit.dart';
+import 'package:furni_quest/features/home/bussniss_logic/cubits/wishlist_cubit/wishlist_cubit.dart';
 import 'package:furni_quest/features/home/data/repos/new_arrival_repo.dart';
 import 'package:furni_quest/features/home/data/repos/product_repo.dart';
 import 'package:get_it/get_it.dart';
@@ -28,6 +29,7 @@ void initGetIt() {
   getIt.registerFactory(() => ProductCubit(getIt()));
   getIt.registerLazySingleton(() => NewArrivalRepo(getIt()));
   getIt.registerFactory(() => NewArrivalCubit(getIt()));
+  getIt.registerLazySingleton<WishlistCubit>(()=>WishlistCubit());
 }
 
 Dio createAndSetupDio() {

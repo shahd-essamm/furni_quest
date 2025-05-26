@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furni_quest/features/home/bussniss_logic/cubits/wishlist_cubit/wishlist_cubit.dart';
 import 'package:furni_quest/features/home/data/models/product_model.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_deatils_view.dart';
 
@@ -15,18 +17,17 @@ class RecommendedCardItem extends StatefulWidget {
 }
 
 class _RecommendedCardItemState extends State<RecommendedCardItem> {
-  bool isFavorite = false;
-
   @override
   Widget build(BuildContext context) {
+    final wishlistCubit = context.watch<WishlistCubit>();
+    final isFavorite = wishlistCubit.isInWishlist(widget.product);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailsView(
-              product: widget.product,
-            ),
+            builder: (context) => ProductDetailsView(product: widget.product),
           ),
         );
       },
@@ -42,27 +43,17 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                   child: Image.network(
                     widget.product.images[0].imageUrl,
                     width: double.infinity,
                     height: 110,
                     fit: BoxFit.fill,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        width: double.infinity,
-                        height: 110,
-                        color: Colors.grey.shade200,
-                        child: const Icon(
-                          Icons.image_not_supported,
-                          size: 40,
-                          color: Colors.grey,
-                        ),
-                      );
-                    },
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: 110,
+                      color: Colors.grey.shade200,
+                      child: const Icon(Icons.image_not_supported, size: 40),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -74,9 +65,7 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
                       color: isFavorite ? Colors.red : Colors.grey,
                     ),
                     onPressed: () {
-                      setState(() {
-                        isFavorite = !isFavorite;
-                      });
+                      context.read<WishlistCubit>().toggleWishlist(widget.product);
                     },
                   ),
                 ),
@@ -86,10 +75,7 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.product.name,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
@@ -107,8 +93,8 @@ class _RecommendedCardItemState extends State<RecommendedCardItem> {
                     }),
                   ),
                   Text(
-                    '\$${widget.product.price.toString()}',
-                    style: TextStyle(fontSize: 14, color: Colors.green),
+                    '\$${widget.product.price}',
+                    style: const TextStyle(fontSize: 14, color: Colors.green),
                   ),
                 ],
               ),
