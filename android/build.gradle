@@ -1,3 +1,19 @@
+// File: android/build.gradle
+
+buildscript {
+    ext.kotlin_version = '1.8.10' // Set your Kotlin version here
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.1.0" // Use whatever version matches your local setup
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
 allprojects {
     repositories {
         google()

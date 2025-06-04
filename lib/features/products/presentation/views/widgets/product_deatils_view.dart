@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_print
+
+import 'dart:io' show Platform;
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
@@ -10,6 +14,7 @@ import 'package:furni_quest/features/products/presentation/views/widgets/custom_
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_rate_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Global cart list
 // List<Map<String, dynamic>> cartItems = [];
@@ -43,6 +48,21 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _launchApk(String apkUrl) async {
+      final Uri url = Uri.parse(apkUrl);
+
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      } else {
+        print('Could not launch APK URL');
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not launch APK download link')),
+          );
+        }
+      }
+    }
+
     final moreBrand = widget.product.moreFromBrand ?? [];
     return Scaffold(
       backgroundColor: Colors.white,
@@ -206,18 +226,22 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ],
                   ),
                   Spacer(),
-                  Container(
-                    width: 35,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Color(0xff96A093), width: 1),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: SvgPicture.asset(
-                        "assets/ar_icon.svg",
-                        width: 20,
+                  // TODO : Add AR functionality
+                  InkWell(
+                    onTap: () => _launchApk('https://aymantaher.com/Furniture/apis/apk/BigCloset.apk'),
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Color(0xff96A093), width: 1),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: SvgPicture.asset(
+                          "assets/ar_icon.svg",
+                          width: 20,
+                        ),
                       ),
                     ),
                   ),
@@ -370,6 +394,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                           loadingBuilder: (context, child,
                                               loadingProgress) {
                                             if (loadingProgress == null)
+                                              // ignore: curly_braces_in_flow_control_structures
                                               return child;
                                             return Center(
                                               child: CircularProgressIndicator(
@@ -587,7 +612,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               SizedBox(
                 height: 16,
               ),
-               GridView.count(
+              GridView.count(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
@@ -600,8 +625,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     isFavorite: false,
                     onFavoritePressed: () {},
                     imagePath: moreBrand[index].image ?? '',
-                    name: moreBrand[index].name??'', // Or use a placeholder like 'Product'
-                    price: "\$${moreBrand[index].price??0.toStringAsFixed(0)}",
+                    name: moreBrand[index].name ??
+                        '', // Or use a placeholder like 'Product'
+                    price:
+                        "\$${moreBrand[index].price ?? 0.toStringAsFixed(0)}",
                   ),
                 ),
               ),
@@ -626,7 +653,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       onTap: () {
                         cartItems.add({
                           'title': widget.product.name,
-                          'image':imageSelected,
+                          'image': imageSelected,
                           'price': widget.product.price,
                           'quantity': 1,
                         });

@@ -47,7 +47,7 @@ class CategoryCardListView extends StatelessWidget {
                 final category = subCategories[index];
                 return Container(
                   width: 80,
-                  margin: const EdgeInsets.only(right: 12),
+                  margin: const EdgeInsets.only(right: 12),                  
                   child: CategoryItem(
                     subCategory: category,
                   ),

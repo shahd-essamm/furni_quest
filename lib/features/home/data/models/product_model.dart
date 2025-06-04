@@ -14,6 +14,7 @@ class ProductModel {
   final List<ImageModel> images;
   final List<FrequencyBoughtTogether>? frequencyBoughtTogether;
   final List<MoreFromBrandModel>? moreFromBrand;
+  final String apkUrl;
 
   ProductModel({
     required this.id,
@@ -31,6 +32,7 @@ class ProductModel {
     required this.images,
     required this.frequencyBoughtTogether,
     required this.moreFromBrand,
+    required this.apkUrl,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -47,6 +49,7 @@ class ProductModel {
       designCode: json['design_code'] ?? '',
       subcategoryId: json['subcategory_id'] ?? 0,
       subcategoryName: json['subcategory_name'] ?? '',
+      apkUrl: json['apk_url;'] ?? '',
       images: (json['images'] as List<dynamic>?)
               ?.map((x) => ImageModel.fromJson(x))
               .toList() ??

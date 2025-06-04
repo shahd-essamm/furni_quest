@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furni_quest/core/services/injection.dart';
 import 'package:furni_quest/features/home/bussniss_logic/cubits/category_cubit/category_cubit.dart';
-import 'package:furni_quest/features/home/bussniss_logic/cubits/wishlist_cubit/wishlist_cubit.dart';
 import 'package:furni_quest/features/home/data/models/category_product_model/category_product_model.dart';
 import 'package:furni_quest/features/home/data/models/sub_category_model/sub_category_model.dart';
 import 'package:furni_quest/features/home/data/repos/category_repo.dart';
