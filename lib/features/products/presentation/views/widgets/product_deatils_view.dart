@@ -1,7 +1,4 @@
 // ignore_for_file: avoid_print
-
-import 'dart:io' show Platform;
-import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:furni_quest/core/utils/app_colors.dart';
@@ -228,7 +225,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   Spacer(),
                   // TODO : Add AR functionality
                   InkWell(
-                    onTap: () => _launchApk('https://aymantaher.com/Furniture/apis/apk/BigCloset.apk'),
+                    onTap: () => _launchApk(
+                        'https://aymantaher.com/Furniture/apis/apk/BigCloset.apk'),
                     child: Container(
                       width: 35,
                       height: 35,
@@ -616,7 +614,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 0.74,
+                childAspectRatio: 0.84,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: List.generate(

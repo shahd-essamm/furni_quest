@@ -435,7 +435,7 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 0.74,
+                childAspectRatio: 0.84,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: List.generate(

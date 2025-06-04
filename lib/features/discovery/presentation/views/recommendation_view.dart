@@ -1,8 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -300,7 +298,7 @@ class _RecommendationViewState extends State<RecommendationView> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                     content: Text(
-                                        "Random style selected: $randomStyle")),
+                                        "Style selected: $randomStyle")),
                               );
                             }
                           },
