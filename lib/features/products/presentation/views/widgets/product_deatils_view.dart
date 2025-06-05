@@ -12,6 +12,10 @@ import 'package:furni_quest/features/products/presentation/views/widgets/custom_
 import 'package:furni_quest/features/products/presentation/views/widgets/custom_review_widget.dart';
 import 'package:furni_quest/features/products/presentation/views/widgets/product_card_without_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
+import 'dart:io';
+import 'package:device_apps/device_apps.dart';
 
 // Global cart list
 // List<Map<String, dynamic>> cartItems = [];
@@ -45,18 +49,24 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _launchApk(String apkUrl) async {
-      final Uri url = Uri.parse(apkUrl);
-
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url, mode: LaunchMode.externalApplication);
-      } else {
-        print('Could not launch APK URL');
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not launch APK download link')),
-          );
-        }
+    void lanchARApp(){
+      if(Platform.isAndroid){
+        const packageName = 'com.DefaultCompany.Product';
+        final intent = AndroidIntent(
+          action: 'action_view',
+          package: packageName,
+        );
+        intent.launch();
+      }else{
+        print('AR feature only available on Android.');
+      }
+    }
+    void checkAndLaunchARApp()async{
+      bool isIstalled = await DeviceApps.isAppInstalled('com.DefaultCompany.Product');
+      if(isIstalled){
+        lanchARApp();
+      }else{
+        print('AR App not installed');
       }
     }
 
@@ -225,8 +235,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   Spacer(),
                   // TODO : Add AR functionality
                   InkWell(
-                    onTap: () => _launchApk(
-                        'https://aymantaher.com/Furniture/apis/apk/BigCloset.apk'),
+                    onTap: () => checkAndLaunchARApp(),
                     child: Container(
                       width: 35,
                       height: 35,
